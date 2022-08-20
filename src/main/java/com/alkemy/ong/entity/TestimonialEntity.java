@@ -1,5 +1,6 @@
 package com.alkemy.ong.entity;
 
+import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,6 +10,7 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 
@@ -17,36 +19,28 @@ import java.sql.Timestamp;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@SQLDelete(sql = "UPDATE testimonials SET delete = true WHERE id = ?")
+@Where(clause = "delete = false")
+@Table(name = "testimonials")
 @EntityListeners(AuditingEntityListener.class)
-@SQLDelete(sql = "UPDATE organizations SET soft_delete = true WHERE id = ?")
-@Where(clause = "soft_delete = false")
-@Table(name = "users", indexes = @Index(name = "idx_users_email", columnList = "email"))
-public class UserEntity {
 
+public class TestimonialEntity {
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id;
 
-    @Column(name = "first_name", nullable = false)
-    private String firstName;
-
-    @Column(name = "last_name", nullable = false)
-    private String lastName;
-
-    @Column(nullable = false, unique = true)
-    private String email;
+    @NotNull
+    private String name;
 
     @Column(nullable = false)
-    private String password;
+    private String image;
 
-    private String photo;
+    @Column(nullable = false)
+    private String content;
 
     @CreatedDate
-    @Column(nullable = false, columnDefinition = "timestamp")
-    private Timestamp timestamps;
-
-    @Column(name = "soft_delete")
+    @Column(columnDefinition = "timestamp")
+    private Timestamp timestamp;
     private boolean softDelete;
-
 }
