@@ -1,4 +1,4 @@
-package com.alkemy.ong.mapper.imp;
+package com.alkemy.ong.mapper.impl;
 
 import com.alkemy.ong.dto.SimpleOrganizationDTO;
 import com.alkemy.ong.entity.OrganizationEntity;
