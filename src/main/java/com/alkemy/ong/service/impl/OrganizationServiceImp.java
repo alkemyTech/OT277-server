@@ -1,6 +1,6 @@
 package com.alkemy.ong.service.impl;
 
-import com.alkemy.ong.dto.SimpleOrganizationDTO;
+import com.alkemy.ong.dto.OrganizationDTO;
 import com.alkemy.ong.mapper.impl.OrganizationMapper;
 import com.alkemy.ong.repository.OrganizationRepository;
 import com.alkemy.ong.service.OrganizationService;
@@ -14,7 +14,7 @@ public class OrganizationServiceImp implements OrganizationService {
     private final OrganizationRepository organizationRepository;
     private final OrganizationMapper organizationMapper;
     @Override
-    public SimpleOrganizationDTO getPublicInformation() {
+    public OrganizationDTO getPublicInformation() {
         return organizationMapper.toDto(organizationRepository.findAll().stream()
                 .findFirst().orElseThrow());
     }

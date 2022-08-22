@@ -1,6 +1,6 @@
 package com.alkemy.ong.controller;
 
-import com.alkemy.ong.dto.SimpleOrganizationDTO;
+import com.alkemy.ong.dto.OrganizationDTO;
 import com.alkemy.ong.service.OrganizationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,8 +17,8 @@ public class OrganizationController {
     private final OrganizationService organizationService;
 
     @GetMapping("/public")
-    public ResponseEntity<?> publicInformation(){
-        SimpleOrganizationDTO result = organizationService.getPublicInformation();
+    public ResponseEntity<OrganizationDTO> publicInformation(){
+        OrganizationDTO result = organizationService.getPublicInformation();
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 }

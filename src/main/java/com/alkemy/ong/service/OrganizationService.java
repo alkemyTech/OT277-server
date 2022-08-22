@@ -1,7 +1,7 @@
 package com.alkemy.ong.service;
 
-import com.alkemy.ong.dto.SimpleOrganizationDTO;
+import com.alkemy.ong.dto.OrganizationDTO;
 
 public interface OrganizationService {
-    SimpleOrganizationDTO getPublicInformation();
+    OrganizationDTO getPublicInformation();
 }
