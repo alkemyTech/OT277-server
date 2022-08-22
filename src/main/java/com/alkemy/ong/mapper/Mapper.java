@@ -8,4 +8,5 @@ public interface Mapper<D, E> {
     E toEntity(@NonNull D d);
 
     D toBasicDto(@NonNull E e);
+
 }
