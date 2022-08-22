@@ -23,6 +23,4 @@ public class OrganizationDTO {
     private String aboutUsText;
 
     private Timestamp timestamp;
-
-    private boolean softDelete;
 }

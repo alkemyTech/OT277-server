@@ -14,8 +14,8 @@ public class OrganizationServiceImp implements OrganizationService {
     private final OrganizationRepository organizationRepository;
     private final OrganizationMapper organizationMapper;
     @Override
-    public OrganizationDTO getPublicInformation() {
-        return organizationMapper.toDto(organizationRepository.findAll().stream()
-                .findFirst().orElseThrow());
+    public OrganizationDTO getPublicInformation(String id) {
+        return organizationMapper.toDto(organizationRepository.
+                findById(id).orElseThrow());
     }
 }
