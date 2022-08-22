@@ -1,5 +1,6 @@
 package com.alkemy.ong.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.Setter;
 import javax.validation.constraints.Email;
@@ -8,6 +9,7 @@ import javax.validation.constraints.Size;
 
 @Getter
 @Setter
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserDto {
     @NotBlank(message = "First name cannot be empty or null.")
     private String firstName;
