@@ -1,6 +1,5 @@
 package com.alkemy.ong.security.service;
 
-import com.alkemy.ong.dto.UserBasicDto;
 import com.alkemy.ong.dto.UserDto;
 import com.alkemy.ong.entity.UserEntity;
 import com.alkemy.ong.mapper.impl.UserMapper;
