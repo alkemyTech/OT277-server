@@ -16,4 +16,14 @@ public class OrganizationMapper implements Mapper<OrganizationDTO, OrganizationE
         dto.setPhone(organizationEntity.getPhone());
         return dto;
     }
+
+    @Override
+    public OrganizationEntity toEntity(OrganizationDTO organizationDTO) {
+        return null;
+    }
+
+    @Override
+    public OrganizationDTO toBasicDto(OrganizationEntity organizationEntity) {
+        return null;
+    }
 }
