@@ -13,6 +13,12 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
+
 @Service
 public class UserDetailsCustomService implements UserDetailsService {
 
@@ -26,15 +32,13 @@ public class UserDetailsCustomService implements UserDetailsService {
         if (userRepository.findByEmail(userDto.getEmail()) != null) {
             throw new Exception("User already exists");
         }
-        return userMapper.toBasicDto(userRepository.save(
-                userMapper.toEntity(userDto)));
+        UserEntity user = userMapper.toEntity(userDto);
+        user.setPassword(new BCryptPasswordEncoder().encode(userDto.getPassword()));
+        return userMapper.toBasicDto(userRepository.save(user));
     }
+
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        UserEntity userEntity = userRepository.findByEmail(email);
-        if (userEntity == null){
-            throw new UsernameNotFoundException("Username not found");
-        }
-        return new User(userEntity.getEmail(), userEntity.getPassword(), Collections.emptyList());
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return null;
     }
 }
