@@ -22,8 +22,8 @@ public class SlideEntity {
     @Column(columnDefinition = "text")
     private String text;
 
-    private String order;
-
+    @Column(name = "slideOrder")
+    private String slideOrder;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "organizationId",insertable = false,updatable = false)
