@@ -13,11 +13,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Service;
+
 
 @Service
 public class UserDetailsCustomService implements UserDetailsService {
@@ -39,6 +37,10 @@ public class UserDetailsCustomService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return null;
+        UserEntity userEntity = userRepository.findByEmail(username);
+        if (userEntity == null){
+            throw new UsernameNotFoundException("Username not found");
+        }
+        return new User(userEntity.getEmail(), userEntity.getPassword(), Collections.emptyList());
     }
 }
