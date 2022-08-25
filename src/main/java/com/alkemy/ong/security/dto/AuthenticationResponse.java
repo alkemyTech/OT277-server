@@ -10,5 +10,5 @@ import lombok.Setter;
 @AllArgsConstructor
 public class AuthenticationResponse {
     @JsonProperty("User")
-    private String jwt;
+    private String user;
 }
