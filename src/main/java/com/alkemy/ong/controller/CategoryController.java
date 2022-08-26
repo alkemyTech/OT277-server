@@ -1,6 +1,8 @@
 package com.alkemy.ong.controller;
 
+import com.alkemy.ong.dto.CategoryDTO;
 import com.alkemy.ong.dto.OrganizationDTO;
+import com.alkemy.ong.service.CategoryService;
 import com.alkemy.ong.service.OrganizationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -10,18 +12,19 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Set;
+
 @RestController
-@RequestMapping("/organization")
+@RequestMapping("/category")
 @RequiredArgsConstructor
-public class OrganizationController {
+public class CategoryController {
 
-    private final OrganizationService organizationService;
+    private final CategoryService categoryService;
 
-    @GetMapping("/public/{id}")
-    public ResponseEntity<OrganizationDTO> publicInformation(@PathVariable String id){
-        OrganizationDTO result = organizationService.getPublicInformation(id);
+    @GetMapping("/categories")
+    public ResponseEntity<Set<CategoryDTO>> getCategories(){
+        Set<CategoryDTO> result = categoryService.getCategories();
+
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
-
-
 }
