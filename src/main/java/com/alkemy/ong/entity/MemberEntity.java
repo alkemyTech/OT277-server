@@ -26,7 +26,7 @@ public class MemberEntity {
     @GenericGenerator(name="uuid", strategy = "uuid2")
     private String id;
 
-    @Column(nullable = false)
+    @Column(name = "member", nullable = false)
     private String name;
 
     @Column(name = "facebook_url", nullable = false)

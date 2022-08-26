@@ -40,6 +40,9 @@ public class NewEntity {
     @Column(columnDefinition = "timestamp")
     private Timestamp timestamps;
 
+    @Column(nullable = false)
+    private String type;
+
     private boolean softDelete = Boolean.FALSE;
 
 }
