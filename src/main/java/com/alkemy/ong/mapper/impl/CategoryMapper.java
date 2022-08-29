@@ -1,41 +1,55 @@
 package com.alkemy.ong.mapper.impl;
 
-
-import com.alkemy.ong.dto.CategoryDto;
-import com.alkemy.ong.dto.NewDto;
+import com.alkemy.ong.dto.CategoryDTO;
 import com.alkemy.ong.entity.CategoryEntity;
 import com.alkemy.ong.mapper.Mapper;
-import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Component
-@RequiredArgsConstructor
-public class CategoryMapper implements Mapper<CategoryDto, CategoryEntity> {
-
+public class CategoryMapper implements Mapper<CategoryDTO, CategoryEntity> {
 
     @Override
-    public CategoryDto toDto(CategoryEntity categoryEntity) {
-        var categoryDto = new CategoryDto();
-        categoryDto.setName(categoryEntity.getName());
-        categoryDto.setDescription(categoryEntity.getDescription());
-        categoryDto.setImage(categoryEntity.getImage());
-        categoryDto.setTimestamps(categoryEntity.getTimestamps());
-        return categoryDto;
+    public CategoryEntity toEntity(CategoryDTO dto) {
+        CategoryEntity entity = new CategoryEntity();
+
+        entity.setName(dto.getName());
+        entity.setDescription(dto.getDescription());
+        entity.setImage(dto.getImage());
+
+        return entity;
     }
 
     @Override
-    public CategoryEntity toEntity(CategoryDto categoryDto) {
-        var categoryEntity = new CategoryEntity();
-        categoryEntity.setName(categoryDto.getName());
-        categoryEntity.setDescription(categoryDto.getDescription());
-        categoryEntity.setImage(categoryDto.getImage());
-        categoryEntity.setTimestamps(categoryDto.getTimestamps());
-        return categoryEntity;
+    public CategoryDTO toBasicDto(CategoryEntity entity) {
+        CategoryDTO response = new CategoryDTO();
+
+        response.setName(entity.getName());
+
+        return response;
     }
 
     @Override
-    public CategoryDto toBasicDto(CategoryEntity categoryEntity) {
-        return null;
+    public CategoryDTO toDto(CategoryEntity entity) {
+        CategoryDTO response = new CategoryDTO();
+
+        response.setName(entity.getName());
+        response.setDescription(entity.getDescription());
+        response.setImage(entity.getImage());
+
+        return response;
+    }
+
+
+    public Set<CategoryDTO> categoryEntitySet2DTOSet(Set<CategoryEntity> CategoryEntitiesSet){
+
+        Set<CategoryDTO> CategoriesDTOSet = new HashSet<>();
+
+        for (CategoryEntity entity: CategoryEntitiesSet){
+            CategoriesDTOSet.add(toBasicDto(entity));
+        }
+        return CategoriesDTOSet;
     }
 }

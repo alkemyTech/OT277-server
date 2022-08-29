@@ -13,11 +13,9 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @RestController
@@ -53,6 +51,12 @@ public class UserAuthController {
             return ResponseEntity.ok(false);
         }
         final String jwt = jwtTokenUtil.generateToken(userDetails);
-        return ResponseEntity.ok(new AuthenticationResponse(userDetails.getUsername()));
+        return ResponseEntity.ok(new AuthenticationResponse(userDetails.getUsername(), jwt));
     }
+
+    @GetMapping("/me")
+    public ResponseEntity<UserDto> getMe(HttpServletRequest request){
+        return ResponseEntity.status(HttpStatus.CREATED).body(userDetailsCustomService.getMe(request));
+    }
+
 }
