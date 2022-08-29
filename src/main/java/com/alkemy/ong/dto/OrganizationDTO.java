@@ -8,6 +8,7 @@ import java.sql.Timestamp;
 @Getter
 @Setter
 public class OrganizationDTO {
+
     private String name;
 
     private String image;

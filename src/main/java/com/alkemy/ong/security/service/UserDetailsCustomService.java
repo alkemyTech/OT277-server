@@ -1,7 +1,6 @@
 package com.alkemy.ong.security.service;
 
 import com.alkemy.ong.dto.UserDto;
-import com.alkemy.ong.entity.RoleEntity;
 import com.alkemy.ong.entity.UserEntity;
 import com.alkemy.ong.mapper.impl.UserMapper;
 import com.alkemy.ong.repository.UserRepository;
@@ -13,9 +12,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
+import javax.servlet.http.HttpServletRequest;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserDetailsCustomService implements UserDetailsService {
@@ -29,6 +29,10 @@ public class UserDetailsCustomService implements UserDetailsService {
     @Autowired
     private RoleService roleService;
 
+    @Autowired
+    private JwtUtils jwtUtils;
+
+
     public UserDto register(UserDto userDto) throws Exception {
         if (userRepository.findByEmail(userDto.getEmail()) != null) {
             throw new Exception("User already exists");
@@ -41,10 +45,25 @@ public class UserDetailsCustomService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        UserEntity userEntity = userRepository.findByEmail(email);
-        if (userEntity == null) {
-            throw new UsernameNotFoundException("Username not found");
-        }
+        UserEntity userEntity = getByEmail(email);
         return new User(userEntity.getEmail(), userEntity.getPassword(), Collections.emptyList());
+    }
+
+    public UserDto getMe(HttpServletRequest http) {
+        String authorizationHeader = http.getHeader("Authorization");
+        String email = null;
+        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+            email = jwtUtils.getUsernameFromToken(authorizationHeader.substring(7));
+        }
+        return userMapper.toBasicDto(getByEmail(email));
+    }
+
+
+    private UserEntity getByEmail(String email) {
+        Optional<UserEntity> opt = Optional.ofNullable(userRepository.findByEmail(email));
+        if (opt.isEmpty()) {
+            throw new UsernameNotFoundException("User not found");
+        }
+        return opt.get();
     }
 }
