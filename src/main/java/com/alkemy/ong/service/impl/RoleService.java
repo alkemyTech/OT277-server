@@ -16,4 +16,6 @@ public class RoleService {
         return roleRepository.findByName(RoleType.USER.getFullRoleName());
     }
 
+    //TODO: hacer interface
+
 }

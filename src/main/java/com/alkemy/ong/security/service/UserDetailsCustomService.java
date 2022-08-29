@@ -1,6 +1,7 @@
 package com.alkemy.ong.security.service;
 
 import com.alkemy.ong.dto.UserDto;
+import com.alkemy.ong.entity.RoleEntity;
 import com.alkemy.ong.entity.UserEntity;
 import com.alkemy.ong.mapper.impl.UserMapper;
 import com.alkemy.ong.repository.UserRepository;
@@ -14,6 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
+import java.util.List;
 
 @Service
 public class UserDetailsCustomService implements UserDetailsService {
@@ -33,7 +35,7 @@ public class UserDetailsCustomService implements UserDetailsService {
         }
         UserEntity user = userMapper.toEntity(userDto);
         user.setPassword(new BCryptPasswordEncoder().encode(userDto.getPassword()));
-        user.setRole(roleService.getUserRole());
+        user.setRole(List.of(roleService.getUserRole()));
         return userMapper.toBasicDto(userRepository.save(user));
     }
 
