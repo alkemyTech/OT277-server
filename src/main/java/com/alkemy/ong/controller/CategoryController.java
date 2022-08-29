@@ -28,10 +28,12 @@ public class CategoryController {
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
+
     @GetMapping("/categories/{id}")
     public ResponseEntity<CategoryDTO> getCategoryById(@PathVariable String id){
         CategoryDTO result = categoryService.getCategoryDTOById(id);
 
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
+
 }

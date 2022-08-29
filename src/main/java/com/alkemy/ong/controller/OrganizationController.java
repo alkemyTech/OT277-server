@@ -22,4 +22,6 @@ public class OrganizationController {
         OrganizationDTO result = organizationService.getPublicInformation(id);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
+
+
 }
