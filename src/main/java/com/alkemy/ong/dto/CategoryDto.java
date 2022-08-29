@@ -1,26 +1,24 @@
 package com.alkemy.ong.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.CreationTimestamp;
 
-import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 
 @Getter
 @Setter
-public class CategoryDto {
+@NoArgsConstructor
+@AllArgsConstructor
 
-    //@NotNull(message = "El nombre no puede ser nulo")
+public class CategoryDTO {
+
     private String name;
 
-    //@NotNull(message = "Debe tener una descripcion")
     private String description;
 
-    //@NotNull(message = "Debe tener una imagen")
     private String image;
 
-    @CreationTimestamp
     private Timestamp timestamps;
-
 }

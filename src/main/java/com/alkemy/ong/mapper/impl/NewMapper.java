@@ -1,6 +1,6 @@
 package com.alkemy.ong.mapper.impl;
 
-import com.alkemy.ong.dto.NewDto;
+import com.alkemy.ong.dto.NewDTO;
 import com.alkemy.ong.entity.NewEntity;
 import com.alkemy.ong.mapper.Mapper;
 import lombok.RequiredArgsConstructor;
@@ -9,13 +9,13 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class NewMapper implements Mapper<NewDto, NewEntity> {
+public class NewMapper implements Mapper<NewDTO, NewEntity> {
 
     @Lazy
     private final CategoryMapper categoryMapper;
     @Override
-    public NewDto toDto(NewEntity newEntity) {
-        var newDto = new NewDto();
+    public NewDTO toDto(NewEntity newEntity) {
+        var newDto = new NewDTO();
         newDto.setName(newEntity.getName());
         newDto.setContent(newEntity.getContent());
         newDto.setImage(newEntity.getImage());
@@ -26,8 +26,8 @@ public class NewMapper implements Mapper<NewDto, NewEntity> {
     }
 
     @Override
-    public NewEntity toEntity(NewDto newDto) {
-        NewEntity newEntity = new NewEntity();
+    public NewEntity toEntity(NewDTO newDto) {
+        var newEntity = new NewEntity();
         newEntity.setName(newDto.getName());
         newEntity.setContent(newDto.getContent());
         newEntity.setImage(newDto.getImage());
@@ -38,7 +38,7 @@ public class NewMapper implements Mapper<NewDto, NewEntity> {
     }
 
     @Override
-    public NewDto toBasicDto(NewEntity newEntity) {
+    public NewDTO toBasicDto(NewEntity newEntity) {
         return null;
     }
 

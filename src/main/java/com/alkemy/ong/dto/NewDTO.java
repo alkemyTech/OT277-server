@@ -1,8 +1,6 @@
 package com.alkemy.ong.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -12,7 +10,7 @@ import java.security.Timestamp;
 
 @Getter
 @Setter
-public class NewDto {
+public class NewDTO {
     @NotNull(message = "Nombre no puede estar vacio")
     private String name;
 
@@ -22,7 +20,7 @@ public class NewDto {
     @NotNull(message = "La imagen no puede estar vacio")
     private String image;
 
-    private CategoryDto categoryDto;
+    private CategoryDTO categoryDto;
 
     @CreationTimestamp
     private Timestamp timestamps;

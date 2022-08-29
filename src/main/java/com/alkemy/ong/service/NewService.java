@@ -1,7 +1,7 @@
 package com.alkemy.ong.service;
 
-import com.alkemy.ong.dto.NewDto;
+import com.alkemy.ong.dto.NewDTO;
 
 public interface NewService {
-    NewDto saveNews(NewDto news);
+    NewDTO saveNews(NewDTO news);
 }

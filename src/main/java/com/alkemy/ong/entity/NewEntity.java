@@ -33,7 +33,7 @@ public class NewEntity {
     private String image;
 
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "categoryId",nullable = false)
     private CategoryEntity categoryEntity;
 
