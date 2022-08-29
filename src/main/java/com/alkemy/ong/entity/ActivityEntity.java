@@ -15,7 +15,7 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 @AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
-@Table(name = "activities", indexes = @Index(name = "idx_activities_name", columnList = "activity"))
+@Table(name = "activities", indexes = @Index(name = "idx_activities_name", columnList = "name"))
 @Entity
 public class ActivityEntity {
 
@@ -25,7 +25,7 @@ public class ActivityEntity {
     @GenericGenerator(name="uuid", strategy = "uuid2")
     private String id;
 
-    @Column(name= "activity",nullable = false)
+    @Column(nullable = false)
     private String name;
 
     @Column(nullable = false)

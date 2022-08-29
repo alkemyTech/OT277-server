@@ -11,4 +11,6 @@ import lombok.Setter;
 public class AuthenticationResponse {
     @JsonProperty("User")
     private String user;
+
+    private String jwt;
 }
