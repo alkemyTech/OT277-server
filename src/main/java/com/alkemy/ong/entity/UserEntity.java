@@ -9,6 +9,7 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 
@@ -49,4 +50,7 @@ public class UserEntity {
     @Column(name = "soft_delete")
     private boolean softDelete;
 
+    @OneToOne
+    @JoinColumn(name = "role",nullable = false)
+    private RoleEntity role;
 }
