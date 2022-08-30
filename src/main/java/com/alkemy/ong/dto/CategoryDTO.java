@@ -10,16 +10,11 @@ import java.sql.Timestamp;
 @Setter
 public class CategoryDTO {
 
-    //@NotNull(message = "El nombre no puede ser nulo")
     private String name;
 
-    //@NotNull(message = "Debe tener una descripcion")
     private String description;
 
-    //@NotNull(message = "Debe tener una imagen")
     private String image;
 
-    @CreationTimestamp
     private Timestamp timestamps;
-
 }
