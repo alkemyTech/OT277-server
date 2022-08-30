@@ -2,7 +2,6 @@ package com.alkemy.ong.dto;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Timestamp;
 
