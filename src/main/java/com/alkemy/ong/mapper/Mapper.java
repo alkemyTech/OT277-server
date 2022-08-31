@@ -9,4 +9,5 @@ public interface Mapper<D, E> {
 
     D toBasicDto(@NonNull E e);
 
+
 }

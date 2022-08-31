@@ -2,6 +2,7 @@ package com.alkemy.ong.service.impl;
 
 import com.alkemy.ong.dto.CategoryDTO;
 import com.alkemy.ong.entity.CategoryEntity;
+import com.alkemy.ong.exception.ParamNotFound;
 import com.alkemy.ong.mapper.impl.CategoryMapper;
 import com.alkemy.ong.repository.CategoryRepository;
 import com.alkemy.ong.service.CategoryService;
@@ -9,9 +10,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
-import java.util.Set;
 @Service
 @RequiredArgsConstructor
 public class CategoryServiceImpl implements CategoryService {
@@ -22,10 +23,10 @@ public class CategoryServiceImpl implements CategoryService {
     @Autowired
     private final CategoryMapper categoryMapper;
 
-    public Set<CategoryDTO> getCategories() {
+    public List<String> getCategories() {
 
-        Set<CategoryEntity> entities = (Set<CategoryEntity>) categoryRepository.findAll();
-        Set<CategoryDTO> result = categoryMapper.categoryEntitySet2DTOSet(entities);
+        List<CategoryEntity> entities = (List<CategoryEntity>) categoryRepository.findAll();
+        List<String> result = categoryMapper.categoryEntitySet2DTOSet(entities);
         return result;
     }
 
@@ -42,7 +43,7 @@ public class CategoryServiceImpl implements CategoryService {
 
         if(!entity.isPresent()) {
             try {
-                throw new Exception("Error 404 not found");
+                throw new ParamNotFound("Error 404 not found");
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }

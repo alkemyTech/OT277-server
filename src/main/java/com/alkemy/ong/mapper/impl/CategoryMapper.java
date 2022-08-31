@@ -5,8 +5,8 @@ import com.alkemy.ong.entity.CategoryEntity;
 import com.alkemy.ong.mapper.Mapper;
 import org.springframework.stereotype.Component;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class CategoryMapper implements Mapper<CategoryDTO, CategoryEntity> {
@@ -38,18 +38,19 @@ public class CategoryMapper implements Mapper<CategoryDTO, CategoryEntity> {
         response.setName(entity.getName());
         response.setDescription(entity.getDescription());
         response.setImage(entity.getImage());
+        response.setTimestamps(entity.getTimestamps());
 
         return response;
     }
 
 
-    public Set<CategoryDTO> categoryEntitySet2DTOSet(Set<CategoryEntity> CategoryEntitiesSet){
+    public List<String> categoryEntitySet2DTOSet(List<CategoryEntity> CategoryEntitiesList){
 
-        Set<CategoryDTO> CategoriesDTOSet = new HashSet<>();
+        List<String> CategoriesName = new ArrayList<>();
 
-        for (CategoryEntity entity: CategoryEntitiesSet){
-            CategoriesDTOSet.add(toBasicDto(entity));
+        for (CategoryEntity entity: CategoryEntitiesList){
+            CategoriesName.add(entity.getName());
         }
-        return CategoriesDTOSet;
+        return CategoriesName;
     }
 }

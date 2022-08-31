@@ -5,8 +5,6 @@ import com.alkemy.ong.entity.OrganizationEntity;
 import com.alkemy.ong.mapper.Mapper;
 import org.springframework.stereotype.Component;
 
-import java.util.Optional;
-
 @Component
 public class OrganizationMapper implements Mapper<OrganizationDTO, OrganizationEntity> {
     @Override
