@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 import java.util.Set;
 @Service
 @RequiredArgsConstructor
@@ -27,10 +29,26 @@ public class CategoryServiceImpl implements CategoryService {
         return result;
     }
 
+
     public CategoryDTO saveCategory(CategoryDTO dto) {
         CategoryEntity categoryEntity = categoryMapper.toEntity(dto);
         CategoryEntity savedCategory = categoryRepository.save(categoryEntity);
         CategoryDTO result = categoryMapper.toDto(savedCategory);
         return result;
     }
+
+    public CategoryDTO getCategoryDTOById(String id){
+        Optional<CategoryEntity> entity = categoryRepository.findById(id);
+
+        if(!entity.isPresent()) {
+            try {
+                throw new Exception("Error 404 not found");
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+        CategoryDTO categoryDTO = categoryMapper.toDto(entity.get());
+        return categoryDTO;
+    }
+
 }
