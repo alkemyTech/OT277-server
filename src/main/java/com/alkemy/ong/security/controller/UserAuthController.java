@@ -5,6 +5,7 @@ import com.alkemy.ong.security.dto.AuthenticationRequest;
 import com.alkemy.ong.security.dto.AuthenticationResponse;
 import com.alkemy.ong.security.service.JwtUtils;
 import com.alkemy.ong.security.service.UserDetailsCustomService;
+import com.alkemy.ong.service.EmailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,12 +27,14 @@ public class UserAuthController {
     private final UserDetailsCustomService userDetailsCustomService;
     private final AuthenticationManager authenticationManager;
     private final JwtUtils jwtTokenUtil;
+    private  final EmailService emailService;
 
     @PostMapping("/register")
     public ResponseEntity<UserDto> register(@Valid @RequestBody UserDto userDto) {
         UserDto response;
         try {
             response = userDetailsCustomService.register(userDto);
+            emailService.sendEmailTo(userDto.getEmail());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -48,7 +51,7 @@ public class UserAuthController {
             );
             userDetails = (UserDetails)auth.getPrincipal();
         }catch (BadCredentialsException e){
-            return ResponseEntity.ok(false);
+            return ResponseEntity.ok("false");
         }
         final String jwt = jwtTokenUtil.generateToken(userDetails);
         return ResponseEntity.ok(new AuthenticationResponse(userDetails.getUsername(), jwt));
