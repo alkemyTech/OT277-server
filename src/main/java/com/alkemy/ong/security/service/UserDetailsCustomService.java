@@ -4,6 +4,7 @@ import com.alkemy.ong.dto.UserDto;
 import com.alkemy.ong.entity.UserEntity;
 import com.alkemy.ong.mapper.impl.UserMapper;
 import com.alkemy.ong.repository.UserRepository;
+import com.alkemy.ong.service.impl.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,9 +12,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import javax.servlet.http.HttpServletRequest;
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -26,7 +27,11 @@ public class UserDetailsCustomService implements UserDetailsService {
     private UserMapper userMapper;
 
     @Autowired
+    private RoleService roleService;
+
+    @Autowired
     private JwtUtils jwtUtils;
+
 
     public UserDto register(UserDto userDto) throws Exception {
         if (userRepository.findByEmail(userDto.getEmail()) != null) {
@@ -34,6 +39,7 @@ public class UserDetailsCustomService implements UserDetailsService {
         }
         UserEntity user = userMapper.toEntity(userDto);
         user.setPassword(new BCryptPasswordEncoder().encode(userDto.getPassword()));
+        user.setRole(List.of(roleService.getUserRole()));
         return userMapper.toBasicDto(userRepository.save(user));
     }
 
