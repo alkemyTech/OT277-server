@@ -2,14 +2,12 @@ package com.alkemy.ong.service;
 
 import com.alkemy.ong.dto.CategoryDTO;
 
-import com.alkemy.ong.entity.CategoryEntity;
 
-
-import java.util.Set;
+import java.util.List;
 
 public interface CategoryService {
 
-    Set<CategoryDTO> getCategories();
+    List<String> getCategories();
 
 
     CategoryDTO saveCategory(CategoryDTO dto);
