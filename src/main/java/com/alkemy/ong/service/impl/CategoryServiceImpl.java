@@ -29,6 +29,14 @@ public class CategoryServiceImpl implements CategoryService {
         return result;
     }
 
+
+    public CategoryDTO saveCategory(CategoryDTO dto) {
+        CategoryEntity categoryEntity = categoryMapper.toEntity(dto);
+        CategoryEntity savedCategory = categoryRepository.save(categoryEntity);
+        CategoryDTO result = categoryMapper.toDto(savedCategory);
+        return result;
+    }
+
     public CategoryDTO getCategoryDTOById(String id){
         Optional<CategoryEntity> entity = categoryRepository.findById(id);
 

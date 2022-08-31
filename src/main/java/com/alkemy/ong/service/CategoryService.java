@@ -11,6 +11,9 @@ public interface CategoryService {
 
     Set<CategoryDTO> getCategories();
 
+
+    CategoryDTO saveCategory(CategoryDTO dto);
+
     CategoryDTO getCategoryDTOById(String id);
 
 }
