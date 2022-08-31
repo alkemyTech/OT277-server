@@ -13,3 +13,8 @@ spring:
         dialect: org.hibernate.dialect.MySQL8Dialect
 jackson:
   default-property-inclusion: non_default
+amazonProperties:
+  endpointUrl: https://s3.us-east-2.amazonaws.com
+  accessKey: ${Access_Key}
+  secretKey: ${Secret_Key}
+  bucketName: S3Amazon
