@@ -15,7 +15,8 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 @AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
-@Table(name = "activities", indexes = @Index(name = "idx_activities_name", columnList = "activity"))
+@Table(name = "activities", indexes = @Index(name = "idx_activities_name", columnList = "name"))
+@Entity
 public class ActivityEntity {
 
 

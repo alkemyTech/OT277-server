@@ -27,4 +27,5 @@ public class OrganizationController {
         OrganizationDTO result = organizationService.update(dto,id);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
+
 }

@@ -14,7 +14,9 @@ import java.sql.Timestamp;
 @Setter
 public class OrganizationDTO {
 
+
     @NotBlank(message = "Name cannot be empty or null.")
+
     private String name;
 
     private String image;
