@@ -33,12 +33,15 @@ public class NewEntity {
     private String image;
 
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "categoryId",nullable = false)
     private CategoryEntity categoryEntity;
 
     @Column(columnDefinition = "timestamp")
     private Timestamp timestamps;
+
+    @Column(nullable = false)
+    private String type;
 
     private boolean softDelete = Boolean.FALSE;
 
