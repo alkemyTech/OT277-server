@@ -18,7 +18,7 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 @AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
-@SQLDelete(sql = "UPDATE organizations SET soft_delete = true WHERE id = ?")
+@SQLDelete(sql = "UPDATE users SET soft_delete = true WHERE id = ?")
 @Where(clause = "soft_delete = false")
 @Table(name = "users", indexes = @Index(name = "idx_users_email", columnList = "email"))
 public class UserEntity {
