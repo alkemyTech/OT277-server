@@ -45,4 +45,9 @@ public class CategoryController {
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
+    @DeleteMapping("/categories/{id}")
+    public ResponseEntity<Void> delete(@PathVariable String id) {
+        categoryService.delete(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
 }

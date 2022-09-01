@@ -63,4 +63,13 @@ public class CategoryServiceImpl implements CategoryService {
         entity.setId(id);
         return this.categoryMapper.toDto(this.categoryRepository.save(entity));
     }
+
+    public void delete(String id) {
+        Optional<CategoryEntity>entity = categoryRepository.findById(id);
+        if(!entity.isPresent())
+        {
+            throw new ParamNotFound("ID de categoria no encontrada, no se pudo eliminar");
+        }
+        categoryRepository.deleteById(id);
+    }
 }
