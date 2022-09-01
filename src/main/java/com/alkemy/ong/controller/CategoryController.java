@@ -18,6 +18,8 @@ public class CategoryController {
 
     private final CategoryService categoryService;
 
+    // Solo debe permitir al administrador ejecutar estas acciones!
+
     @GetMapping("/categories")
     public ResponseEntity<List<String>> getCategories(){
         List<String> result = categoryService.getCategories();
@@ -36,4 +38,11 @@ public class CategoryController {
         CategoryDTO result = categoryService.getCategoryDTOById(id);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
+
+    @PutMapping("/categories/{id}")
+    public ResponseEntity<CategoryDTO> update(@Valid @RequestBody CategoryDTO dto, @PathVariable String id){
+        CategoryDTO result = categoryService.update(dto,id);
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
+
 }

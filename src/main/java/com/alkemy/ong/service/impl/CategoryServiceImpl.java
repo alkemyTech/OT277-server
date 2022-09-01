@@ -1,7 +1,9 @@
 package com.alkemy.ong.service.impl;
 
 import com.alkemy.ong.dto.CategoryDTO;
+import com.alkemy.ong.dto.OrganizationDTO;
 import com.alkemy.ong.entity.CategoryEntity;
+import com.alkemy.ong.entity.OrganizationEntity;
 import com.alkemy.ong.exception.ParamNotFound;
 import com.alkemy.ong.mapper.impl.CategoryMapper;
 import com.alkemy.ong.repository.CategoryRepository;
@@ -52,4 +54,13 @@ public class CategoryServiceImpl implements CategoryService {
         return categoryDTO;
     }
 
+    public CategoryDTO update(CategoryDTO dto, String id) {
+
+        if(!categoryRepository.findById(id).isPresent()){
+            throw  new ParamNotFound("El id de category es invalido");
+        }
+        CategoryEntity entity = this.categoryMapper.toEntity(dto);
+        entity.setId(id);
+        return this.categoryMapper.toDto(this.categoryRepository.save(entity));
+    }
 }
