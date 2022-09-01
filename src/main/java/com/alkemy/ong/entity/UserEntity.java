@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
-@SQLDelete(sql = "UPDATE organizations SET soft_delete = true WHERE id = ?")
+@SQLDelete(sql = "UPDATE users SET soft_delete = true WHERE id = ?")
 @Where(clause = "soft_delete = false")
 @Table(name = "users", indexes = @Index(name = "idx_users_email", columnList = "email"))
 public class UserEntity implements UserDetails{
@@ -50,7 +50,7 @@ public class UserEntity implements UserDetails{
     private String photo;
 
     @CreatedDate
-    @Column(nullable = false, columnDefinition = "timestamp")
+    @Column(columnDefinition = "timestamp")
     private Timestamp timestamps;
 
     @Column(name = "soft_delete")
