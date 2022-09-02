@@ -8,14 +8,12 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class RoleService {
+public class RoleServiceImpl implements com.alkemy.ong.service.RoleService {
 
     private final RoleRepository roleRepository;
 
     public RoleEntity getUserRole(){
         return roleRepository.findByName(RoleType.USER.getFullRoleName());
     }
-
-    //TODO: hacer interface
 
 }

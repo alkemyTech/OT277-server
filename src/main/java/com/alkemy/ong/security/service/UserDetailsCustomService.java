@@ -4,9 +4,10 @@ import com.alkemy.ong.dto.UserDto;
 import com.alkemy.ong.entity.UserEntity;
 import com.alkemy.ong.mapper.impl.UserMapper;
 import com.alkemy.ong.repository.UserRepository;
-import com.alkemy.ong.service.impl.RoleService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User;
+import com.alkemy.ong.service.EmailService;
+import com.alkemy.ong.service.impl.RoleServiceImpl;
+import com.alkemy.ong.service.impl.UserServiceImpl;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -14,30 +15,31 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class UserDetailsCustomService implements UserDetailsService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    @Autowired
-    private UserMapper userMapper;
+    private final UserMapper userMapper;
 
-    @Autowired
-    private RoleService roleService;
+    private final RoleServiceImpl roleService;
 
-    @Autowired
-    private JwtUtils jwtUtils;
+    private final JwtUtils jwtUtils;
+
+    private final UserServiceImpl userService;
+
+    private final EmailService emailService;
 
 
-    public UserDto register(UserDto userDto) throws Exception {
+    public UserDto register(UserDto userDto) {
+        userService.validateEmail(userDto.getEmail());
         UserEntity user = userMapper.toEntity(userDto);
         user.setPassword(new BCryptPasswordEncoder().encode(userDto.getPassword()));
         user.setRole(List.of(roleService.getUserRole()));
+        emailService.sendEmailTo(userDto.getEmail());
         return userMapper.toBasicDto(userRepository.save(user));
     }
 
@@ -53,15 +55,8 @@ public class UserDetailsCustomService implements UserDetailsService {
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             email = jwtUtils.extractUsername(authorizationHeader.substring(7));
         }
-        return userMapper.toBasicDto(getByEmail(email));
+        return userMapper.toBasicDto(userService.getByEmail(email));
     }
 
 
-    private UserEntity getByEmail(String email) {
-        Optional<UserEntity> opt = userRepository.findByEmail(email);
-        if (opt.isEmpty()) {
-            throw new UsernameNotFoundException("User not found");
-        }
-        return opt.get();
-    }
 }
