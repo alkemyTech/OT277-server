@@ -1,5 +1,6 @@
 package com.alkemy.ong.controller;
 
+import com.alkemy.ong.dto.CategoryDTO;
 import com.alkemy.ong.dto.NewDTO;
 import com.alkemy.ong.service.NewService;
 import lombok.RequiredArgsConstructor;
@@ -26,5 +27,11 @@ public class NewController {
     public ResponseEntity<Void> deleteNew(@PathVariable String id){
         newService.deleteNew(id);
         return ResponseEntity.status(HttpStatus.ACCEPTED).build();
+    } 
+    
+    @GetMapping("/news/{id}")
+    public ResponseEntity<NewDTO> getNewById(@PathVariable String id){
+        NewDTO result = newService.getNewById(id);
+        return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 }

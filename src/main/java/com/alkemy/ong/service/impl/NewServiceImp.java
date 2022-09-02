@@ -1,6 +1,8 @@
 package com.alkemy.ong.service.impl;
 
+import com.alkemy.ong.dto.CategoryDTO;
 import com.alkemy.ong.dto.NewDTO;
+import com.alkemy.ong.entity.CategoryEntity;
 import com.alkemy.ong.entity.NewEntity;
 import com.alkemy.ong.exception.ParamNotFound;
 import com.alkemy.ong.mapper.impl.NewMapper;
@@ -31,6 +33,19 @@ public class NewServiceImp implements NewService {
             throw new ParamNotFound("No existe una NEW con el id ingresado");
         }
         newRepository.deleteById(id);
+    }
+    
+    public NewDTO getNewById(String id){
+        Optional<NewEntity> entity = newRepository.findById(id);
 
+        if(!entity.isPresent()) {
+            try {
+                throw new ParamNotFound("Error 404 not found");
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+        NewDTO newDTO = newMapper.toDto(entity.get());
+        return newDTO;
     }
 }
