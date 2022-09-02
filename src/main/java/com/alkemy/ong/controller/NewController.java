@@ -23,6 +23,12 @@ public class NewController {
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(response);
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteNew(@PathVariable String id){
+        newService.deleteNew(id);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).build();
+    } 
+    
     @GetMapping("/news/{id}")
     public ResponseEntity<NewDTO> getNewById(@PathVariable String id){
         NewDTO result = newService.getNewById(id);

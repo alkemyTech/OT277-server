@@ -26,6 +26,15 @@ public class NewServiceImp implements NewService {
         return newMapper.toDto(newRepository.save(newEntity));
     }
 
+    @Override
+    public void deleteNew(String id) {
+        Optional<NewEntity> entity = newRepository.findById(id);
+        if(!entity.isPresent()) {
+            throw new ParamNotFound("No existe una NEW con el id ingresado");
+        }
+        newRepository.deleteById(id);
+    }
+    
     public NewDTO getNewById(String id){
         Optional<NewEntity> entity = newRepository.findById(id);
 

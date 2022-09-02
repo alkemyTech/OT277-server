@@ -13,8 +13,8 @@ import java.security.Timestamp;
 @Entity
 @Getter
 @Setter
-@SQLDelete(sql = "UPDATE news SET softDelete= true WHERE id=?")
-@Where(clause = "softDelete=false")
+@SQLDelete(sql = "UPDATE news SET soft_delete= true WHERE id=?")
+@Where(clause = "soft_delete=false")
 @Table(name = "news")
 public class NewEntity {
 
