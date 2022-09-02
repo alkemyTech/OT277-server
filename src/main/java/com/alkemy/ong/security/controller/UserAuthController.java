@@ -27,14 +27,13 @@ public class UserAuthController {
     private final UserDetailsCustomService userDetailsCustomService;
     private final AuthenticationManager authenticationManager;
     private final JwtUtils jwtTokenUtil;
-    private  final EmailService emailService;
+
 
     @PostMapping("/register")
     public ResponseEntity<UserDto> register(@Valid @RequestBody UserDto userDto) {
         UserDto response;
         try {
             response = userDetailsCustomService.register(userDto);
-            emailService.sendEmailTo(userDto.getEmail());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -59,7 +58,7 @@ public class UserAuthController {
 
     @GetMapping("/me")
     public ResponseEntity<UserDto> getMe(HttpServletRequest request){
-        return ResponseEntity.status(HttpStatus.CREATED).body(userDetailsCustomService.getMe(request));
+        return ResponseEntity.status(HttpStatus.OK).body(userDetailsCustomService.getMe(request));
     }
 
 }
