@@ -40,7 +40,9 @@ public class UserDetailsCustomService implements UserDetailsService {
         user.setPassword(new BCryptPasswordEncoder().encode(userDto.getPassword()));
         user.setRole(List.of(roleService.getUserRole()));
         emailService.sendEmailTo(userDto.getEmail());
-        return userMapper.toBasicDto(userRepository.save(user));
+        UserDto response = userMapper.toBasicDto(userRepository.save(user));
+        response.setToken(jwtUtils.generateToken(user));
+        return response;
     }
 
     @Override
