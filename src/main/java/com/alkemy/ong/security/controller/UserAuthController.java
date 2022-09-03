@@ -52,7 +52,7 @@ public class UserAuthController {
         }catch (BadCredentialsException e){
             return ResponseEntity.ok("false");
         }
-        final String jwt = jwtTokenUtil.generateToken(tails);
+        final String jwt = jwtTokenUtil.generateToken(userDetails);
         return ResponseEntity.ok(new AuthenticationResponse(userDetails.getUsername(), jwt));
     }
 
