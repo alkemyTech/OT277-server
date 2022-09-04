@@ -16,6 +16,5 @@ public class ActivityDTO {
     @NotBlank(message = "Content cannot be empty or null.")
     private String content;
 
-    @NotBlank(message = "Image cannot be empty or null.")
     private String image;
 }
