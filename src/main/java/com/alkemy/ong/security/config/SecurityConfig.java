@@ -71,6 +71,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/activities")
                 .hasRole(RoleType.ADMIN.name())
 
+                .antMatchers(HttpMethod.PUT, "/activities/**")
+                .hasRole(RoleType.ADMIN.name())
+
                 .antMatchers(HttpMethod.PUT, "/categories/**")
                 .hasRole(RoleType.ADMIN.name())
 
