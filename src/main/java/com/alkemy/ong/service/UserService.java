@@ -7,4 +7,6 @@ public interface UserService {
     UserEntity getByEmail(String email);
 
     void validateEmail(String email);
+
+    void deleteUser(String id);
 }

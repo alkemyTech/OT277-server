@@ -1,6 +1,7 @@
 package com.alkemy.ong.service.impl;
 
 import com.alkemy.ong.entity.UserEntity;
+import com.alkemy.ong.exception.ParamNotFound;
 import com.alkemy.ong.exception.UserAlreadyExist;
 import com.alkemy.ong.repository.UserRepository;
 import com.alkemy.ong.service.UserService;
@@ -28,5 +29,11 @@ public class UserServiceImpl implements UserService {
         if (userRepository.existsByEmail(email)) {
             throw new UserAlreadyExist("User already exist: " + email);
         }
+    }
+
+    @Override
+    public void deleteUser(String id) {
+        userRepository.delete(userRepository.findById(id).orElseThrow(
+                ()->new ParamNotFound("Param not found: "+ id)));
     }
 }
