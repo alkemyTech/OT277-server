@@ -1,13 +1,15 @@
 package com.alkemy.ong.service.impl;
 
+import com.alkemy.ong.dto.UserDto;
+import com.alkemy.ong.entity.OrganizationEntity;
+import com.alkemy.ong.repository.OrganizationRepository;
 import com.alkemy.ong.service.EmailService;
 import com.sendgrid.Method;
 import com.sendgrid.Request;
 import com.sendgrid.Response;
 import com.sendgrid.SendGrid;
 import com.sendgrid.helpers.mail.Mail;
-import com.sendgrid.helpers.mail.objects.Content;
-import com.sendgrid.helpers.mail.objects.Email;
+import com.sendgrid.helpers.mail.objects.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
@@ -24,21 +26,38 @@ public class EmailServiceImpl implements EmailService {
     @Value("${alkemy.ong.email.sender}")
     private String emailSender;
 
-    public void sendEmailTo(String to){
+    @Autowired
+    private OrganizationRepository organizationRepository;
+
+
+    @Override
+    public void sendEmailTo(UserDto userDto){
         String apiKey = env.getProperty("EMAIL_API_KEY");
+        OrganizationEntity organizationEntity = organizationRepository.findAll().get(0);
 
-        Email fromEmail = new Email(emailSender);
-        Email toEmail = new Email(to);
-        Content content = new Content("text/plain", "ONG Alkemy");
-        String subject = "Datos enviados exitosamente";
+        Mail mail = new Mail();
+        mail.setFrom(new Email(emailSender,"Bienvenido a "+organizationEntity.getName()));
+        mail.setTemplateId("d-1106b5befbfa42f990ffeb469ec98281");
 
-        Mail mail = new Mail(fromEmail, subject, toEmail, content);
+
+
+        Personalization personalization = new Personalization();
+        personalization.addDynamicTemplateData("user_name",userDto.getFirstName());
+        personalization.addDynamicTemplateData("ong_name",organizationEntity.getName());
+        personalization.addDynamicTemplateData("ong_email",organizationEntity.getEmail());
+        personalization.addDynamicTemplateData("ong_phone",organizationEntity.getPhone());
+        personalization.setSubject("Registro realizado con exito");
+
+        personalization.addTo(new Email(userDto.getEmail()));
+
+        mail.addPersonalization(personalization);
+
         SendGrid sg = new SendGrid(apiKey);
         Request request = new Request();
 
         try{
             request.setMethod(Method.POST);
-            request.setEndpoint("correo/enviar");
+            request.setEndpoint("mail/send");
             request.setBody(mail.build());
             Response response = sg.api(request);
 
@@ -47,7 +66,8 @@ public class EmailServiceImpl implements EmailService {
             System.out.println(response.getHeaders());
         }
         catch (IOException e){
-            System.out.println("Error al intentar enviar el correo electrónico");
         }
+
     }
+
 }

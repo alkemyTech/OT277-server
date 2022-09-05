@@ -39,7 +39,7 @@ public class UserDetailsCustomService implements UserDetailsService {
         UserEntity user = userMapper.toEntity(userDto);
         user.setPassword(new BCryptPasswordEncoder().encode(userDto.getPassword()));
         user.setRole(List.of(roleService.getUserRole()));
-        emailService.sendEmailTo(userDto.getEmail());
+        emailService.sendEmailTo(userDto);
         return userMapper.toBasicDto(userRepository.save(user));
     }
 
