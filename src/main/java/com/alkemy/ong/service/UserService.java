@@ -11,5 +11,8 @@ public interface UserService {
 
     void validateEmail(String email);
 
+    UserDto patchUser(UserDto userDto, String id);
+
     List<UserDto> findAll();
+
 }
