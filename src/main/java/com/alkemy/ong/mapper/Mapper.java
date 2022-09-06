@@ -1,5 +1,7 @@
 package com.alkemy.ong.mapper;
 
+import com.alkemy.ong.dto.NewDtoResponse;
+import com.alkemy.ong.entity.NewEntity;
 import org.springframework.lang.NonNull;
 
 public interface Mapper<D, E> {
@@ -8,6 +10,5 @@ public interface Mapper<D, E> {
     E toEntity(@NonNull D d);
 
     D toBasicDto(@NonNull E e);
-
 
 }
