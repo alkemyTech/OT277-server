@@ -12,7 +12,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -35,7 +37,7 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    @Override
+
     public UserDto patchUser(UserDto userDto, String id) {
         var user = getUser(id);
         user.setFirstName(userDto.getFirstName());
@@ -49,5 +51,10 @@ public class UserServiceImpl implements UserService {
     private UserEntity getUser(String userId){
         return userRepository.findById(userId).orElseThrow(
                 ()->new ParamNotFound("User not found: "+ userId));
+    }
+    
+    public List<UserDto> findAll() {
+        var users = userRepository.findAll();
+        return users.stream().map(userMapper::toBasicDto).collect(Collectors.toList());
     }
 }
