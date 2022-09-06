@@ -37,13 +37,17 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto patchUser(UserDto userDto, String id) {
-        var user = userRepository.findById(id).orElseThrow(
-                ()->new ParamNotFound("Param not found: "+ id));
+        var user = getUser(id);
         user.setFirstName(userDto.getFirstName());
         user.setLastName(userDto.getLastName());
         user.setPassword(new BCryptPasswordEncoder().encode(userDto.getPassword()));
         user.setEmail(userDto.getEmail());
         user.setPhoto(userDto.getPhoto());
         return userMapper.toBasicDto(userRepository.save(user));
+    }
+
+    private UserEntity getUser(String userId){
+        return userRepository.findById(userId).orElseThrow(
+                ()->new ParamNotFound("User not found: "+ userId));
     }
 }
