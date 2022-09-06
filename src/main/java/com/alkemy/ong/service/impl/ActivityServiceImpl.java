@@ -27,7 +27,7 @@ public class ActivityServiceImpl implements ActivityService {
     @Override
     public ActivityDTO updateActivity(ActivityDTO activityDTO, String id) {
         var activity = this.activityRepository.findById(id).orElseThrow(
-                ()-> new ParamNotFound("Param not found :" + id)
+                ()-> new ParamNotFound("Activity not found :" + id)
         );
         activity.setContent(activityDTO.getContent());
         activity.setImage(activityDTO.getImage());
