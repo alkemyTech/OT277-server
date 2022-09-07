@@ -52,9 +52,15 @@ public class UserServiceImpl implements UserService {
         return userRepository.findById(userId).orElseThrow(
                 ()->new ParamNotFound("User not found: "+ userId));
     }
-    
+
     public List<UserDto> findAll() {
         var users = userRepository.findAll();
         return users.stream().map(userMapper::toBasicDto).collect(Collectors.toList());
+    }
+
+    @Override
+    public void deleteUser(String id) {
+        userRepository.delete(userRepository.findById(id).orElseThrow(
+                ()->new ParamNotFound("Param not found: "+ id)));
     }
 }

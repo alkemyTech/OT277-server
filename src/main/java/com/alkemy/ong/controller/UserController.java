@@ -8,6 +8,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
@@ -27,4 +31,11 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(
                 this.userService.findAll());
     }
- }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> deleteUser(@PathVariable String id){
+        this.userService.deleteUser(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+}

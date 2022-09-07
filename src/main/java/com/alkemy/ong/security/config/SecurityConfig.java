@@ -59,7 +59,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/auth/register", "/auth/login")
                 .permitAll()
 
-                .antMatchers(HttpMethod.GET, "/auth/me")
+                .antMatchers(HttpMethod.GET, "/auth/me",  "/users/**")
                 .hasAnyRole(RoleType.ADMIN.name(), RoleType.USER.name())
 
                 .antMatchers(HttpMethod.GET,  "/organization/public/**")
@@ -68,8 +68,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET,  "/news/**")
                 .hasRole(RoleType.ADMIN.name())
 
-                .antMatchers(HttpMethod.GET,  "/users/**")
-                .hasRole(RoleType.ADMIN.name())
+                .antMatchers(HttpMethod.DELETE,  "/users/**")
+                .hasAnyRole(RoleType.ADMIN.name(), RoleType.USER.name())
 
                 .antMatchers(HttpMethod.POST, "/activities")
                 .hasRole(RoleType.ADMIN.name())
