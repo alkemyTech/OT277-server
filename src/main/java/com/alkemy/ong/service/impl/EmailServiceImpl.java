@@ -66,6 +66,7 @@ public class EmailServiceImpl implements EmailService {
             System.out.println(response.getHeaders());
         }
         catch (IOException e){
+            throw new RuntimeException("The mail could't be sent");
         }
 
     }
