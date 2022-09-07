@@ -31,48 +31,32 @@ public class NewServiceImp implements NewService {
 
     @Override
     public void deleteNew(String id) {
-        Optional<NewEntity> entity = newRepository.findById(id);
-        if(!entity.isPresent()) {
-            throw new ParamNotFound("Does not exist a new with id ingresed");
-        }
+        NewEntity newEntity = getNew(id);
         newRepository.deleteById(id);
     }
     
     public NewDtoResponse getNewById(String id){
-        Optional<NewEntity> entity = newRepository.findById(id);
-
-        if(!entity.isPresent()) {
-            try {
-                throw new ParamNotFound("Error 404 not found");
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        }
-        NewDtoResponse dto = newMapper.toNewDtoResponse(entity.get());
+        NewEntity newEntity = getNew(id);
+        NewDtoResponse dto = newMapper.toNewDtoResponse(newEntity);
         return dto;
     }
 
     @Override
     public NewDtoResponse update(String id, NewDTO newDto) {
-        Optional<NewEntity> newEntity = newRepository.findById(id);
+        NewEntity newEntity = getNew(id);
 
-        if(!newEntity.isPresent()) {
-            try {
-                throw new ParamNotFound("Does not exist a new with id ingresed");
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        }
-
-
-        NewEntity newEntity2 = newEntity.get();
-        newEntity2 = newMapper.toEntity(newDto);
-        newEntity2.setId(id);
-
-        NewDtoResponse newDtoResponse = newMapper.toNewDtoResponse(newRepository.save(newEntity2));
-
-        return newDtoResponse;
+        newEntity = newMapper.toEntity(newDto);
+        newEntity.setId(id);
+        return newMapper.toNewDtoResponse(newRepository.save(newEntity));
     }
+
+
+    private NewEntity getNew(String newId){
+        return newRepository.findById(newId).orElseThrow(
+                ()->new ParamNotFound("New not found: "+ newId));
+    }
+
+
 }
 
 
