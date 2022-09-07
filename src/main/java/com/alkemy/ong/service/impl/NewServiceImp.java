@@ -1,11 +1,12 @@
 package com.alkemy.ong.service.impl;
 
-import com.alkemy.ong.dto.CategoryDTO;
 import com.alkemy.ong.dto.NewDTO;
+import com.alkemy.ong.dto.NewDtoResponse;
 import com.alkemy.ong.entity.CategoryEntity;
 import com.alkemy.ong.entity.NewEntity;
 import com.alkemy.ong.exception.ParamNotFound;
 import com.alkemy.ong.mapper.impl.NewMapper;
+import com.alkemy.ong.repository.CategoryRepository;
 import com.alkemy.ong.repository.NewRepository;
 import com.alkemy.ong.service.NewService;
 import lombok.RequiredArgsConstructor;
@@ -20,32 +21,42 @@ public class NewServiceImp implements NewService {
 
     private final NewRepository newRepository;
     private final NewMapper newMapper;
+
+    private final CategoryRepository categoryRepository;
     @Override
-    public NewDTO saveNews(NewDTO news) {
+    public NewDtoResponse saveNews(NewDTO news) {
         NewEntity newEntity = newRepository.save(newMapper.toEntity(news));
-        return newMapper.toDto(newRepository.save(newEntity));
+        return newMapper.toNewDtoResponse(newRepository.save(newEntity));
     }
 
     @Override
     public void deleteNew(String id) {
-        Optional<NewEntity> entity = newRepository.findById(id);
-        if(!entity.isPresent()) {
-            throw new ParamNotFound("No existe una NEW con el id ingresado");
-        }
+        NewEntity newEntity = getNew(id);
         newRepository.deleteById(id);
     }
     
-    public NewDTO getNewById(String id){
-        Optional<NewEntity> entity = newRepository.findById(id);
-
-        if(!entity.isPresent()) {
-            try {
-                throw new ParamNotFound("Error 404 not found");
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        }
-        NewDTO newDTO = newMapper.toDto(entity.get());
-        return newDTO;
+    public NewDtoResponse getNewById(String id){
+        NewEntity newEntity = getNew(id);
+        NewDtoResponse dto = newMapper.toNewDtoResponse(newEntity);
+        return dto;
     }
+
+    @Override
+    public NewDtoResponse update(String id, NewDTO newDto) {
+        NewEntity newEntity = getNew(id);
+
+        newEntity = newMapper.toEntity(newDto);
+        newEntity.setId(id);
+        return newMapper.toNewDtoResponse(newRepository.save(newEntity));
+    }
+
+
+    private NewEntity getNew(String newId){
+        return newRepository.findById(newId).orElseThrow(
+                ()->new ParamNotFound("New not found: "+ newId));
+    }
+
+
 }
+
+

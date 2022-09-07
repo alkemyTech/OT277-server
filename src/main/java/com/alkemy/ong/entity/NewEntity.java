@@ -3,12 +3,13 @@ package com.alkemy.ong.entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
-import java.security.Timestamp;
+import java.sql.Timestamp;
 
 @Entity
 @Getter
@@ -37,6 +38,7 @@ public class NewEntity {
     @JoinColumn(name = "categoryId",nullable = false)
     private CategoryEntity categoryEntity;
 
+    @CreationTimestamp
     @Column(columnDefinition = "timestamp")
     private Timestamp timestamps;
 

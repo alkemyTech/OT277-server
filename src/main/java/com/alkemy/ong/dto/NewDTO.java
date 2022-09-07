@@ -5,26 +5,26 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.validation.constraints.NotNull;
-import java.security.Timestamp;
+import java.sql.Timestamp;
 
 
 @Getter
 @Setter
 public class NewDTO {
-    @NotNull(message = "Nombre no puede estar vacio")
+    @NotNull(message = "Name cannot be empty")
     private String name;
 
-    @NotNull(message = "El contenido no puede estar vacio")
+    @NotNull(message = "Content cannot be empty")
     private String content;
 
-    @NotNull(message = "La imagen no puede estar vacio")
+    @NotNull(message = "Image cannot be empty")
     private String image;
 
-    private CategoryDTO categoryDto;
+    @NotNull(message = "category id cannot be empty")
+    private String categoryId;
 
-    @CreationTimestamp
     private Timestamp timestamps;
 
-    @NotNull(message = "Debe tener un tipo")
+    @NotNull(message = "Type cannot be empty")
     private String type;
 }

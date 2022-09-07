@@ -2,6 +2,7 @@ package com.alkemy.ong.controller;
 
 import com.alkemy.ong.dto.CategoryDTO;
 import com.alkemy.ong.dto.NewDTO;
+import com.alkemy.ong.dto.NewDtoResponse;
 import com.alkemy.ong.service.NewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,8 +19,8 @@ public class NewController {
     private final NewService newService;
 
     @PostMapping
-    public ResponseEntity<NewDTO> saveNews(@Valid @RequestBody NewDTO newDto){
-        NewDTO response = newService.saveNews(newDto) ;
+    public ResponseEntity<NewDtoResponse> saveNews(@Valid @RequestBody NewDTO newDto){
+        NewDtoResponse response = newService.saveNews(newDto) ;
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(response);
     }
 
@@ -29,9 +30,16 @@ public class NewController {
         return ResponseEntity.status(HttpStatus.ACCEPTED).build();
     } 
     
+
     @GetMapping("{id}")
     public ResponseEntity<NewDTO> getNewById(@PathVariable String id){
         NewDTO result = newService.getNewById(id);
         return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<NewDtoResponse> updateNew(@PathVariable String id, @Valid @RequestBody NewDTO newDto){
+        NewDtoResponse result = newService.update(id,newDto);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(result);
     }
 }
