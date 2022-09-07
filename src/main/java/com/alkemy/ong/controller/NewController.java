@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/News")
+@RequestMapping("/news")
 @RequiredArgsConstructor
 public class NewController {
 
@@ -29,7 +29,7 @@ public class NewController {
         return ResponseEntity.status(HttpStatus.ACCEPTED).build();
     } 
     
-    @GetMapping("/news/{id}")
+    @GetMapping("{id}")
     public ResponseEntity<NewDTO> getNewById(@PathVariable String id){
         NewDTO result = newService.getNewById(id);
         return ResponseEntity.status(HttpStatus.OK).body(result);
