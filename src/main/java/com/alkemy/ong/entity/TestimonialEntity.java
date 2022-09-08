@@ -30,13 +30,13 @@ public class TestimonialEntity {
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id;
 
-    @NotNull
+    @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false)
+
     private String image;
 
-    @Column(nullable = false)
+
     private String content;
 
     @CreatedDate
