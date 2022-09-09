@@ -5,6 +5,7 @@ import com.alkemy.ong.dto.SlideDTOResponse;
 import com.alkemy.ong.entity.SlideEntity;
 import com.alkemy.ong.mapper.impl.SlideMapper;
 import com.alkemy.ong.repository.SlideRepository;
+import com.alkemy.ong.service.SlideService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +13,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class SlideServiceImpl {
+public class SlideServiceImpl implements SlideService {
 
     private final SlideRepository slideRepository;
     private final SlideMapper slideMapper;
