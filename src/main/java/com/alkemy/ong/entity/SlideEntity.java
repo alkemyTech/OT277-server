@@ -23,13 +23,13 @@ public class SlideEntity {
     private String text;
 
     @Column(name = "slideOrder")
-    private String slideOrder;
+    private Integer slideOrder;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "organizationId",insertable = false,updatable = false)
     private OrganizationEntity organizationEntity;
 
-    @Column(name = "organizationId",nullable = false)
+    @Column(name = "organizationId")
     private String organizationId;
 
 }
