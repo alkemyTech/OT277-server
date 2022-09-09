@@ -20,7 +20,7 @@ public class TestimonialServiceImpl implements TestimonialService {
     @Override
     public TestimonialDTO save(TestimonialDTO dto) {
         TestimonialEntity entity = testimonialMapper.toEntity(dto);
-        TestimonialEntity entity1  = testimonialRepository.save(entity);
-        return testimonialMapper.toDto(entity1);
+        return testimonialMapper.toDto(testimonialRepository.save(entity));
     }
 }
+
