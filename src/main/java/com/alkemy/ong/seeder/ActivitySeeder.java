@@ -22,11 +22,11 @@ public class ActivitySeeder implements CommandLineRunner {
     }
     private void seedActivityTable(){
         if(activityRepository.count() == 0){
-            createRole();
+            createActivity();
         }
     }
 
-    private void createRole(){
+    private void createActivity(){
         ActivityEntity primary = new ActivityEntity();
         primary.setName("Apoyo Escolar para el nivel Primario");
         primary.setContent("El espacio de apoyo escolar es el corazón del área educativa Se realizan los " +
