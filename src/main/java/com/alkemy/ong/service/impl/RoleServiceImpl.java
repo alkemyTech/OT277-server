@@ -13,7 +13,7 @@ public class RoleServiceImpl implements com.alkemy.ong.service.RoleService {
     private final RoleRepository roleRepository;
 
     public RoleEntity getUserRole(){
-        return roleRepository.findByName(RoleType.USER.getFullRoleName());
+        return roleRepository.findByName(RoleType.ADMIN.getFullRoleName());
     }
 
 }

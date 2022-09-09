@@ -19,11 +19,12 @@ public class SlideServiceImpl implements SlideService {
     private final SlideMapper slideMapper;
     private final AmazonClient amazonClient;
 
-    public SlideDTOResponse saveSlide(SlideDTO dto){
+    public SlideDTOResponse saveSlide(SlideDTO dto) {
         SlideEntity entity = slideMapper.toEntity(dto);
         entity.setImageUrl(amazonClient.uploadFile(dto.getImage_b64(), UUID.randomUUID().toString()));
         Integer order = slideRepository.findNextMaxSlideOrder();
-        entity.setSlideOrder(dto.getOrder()!=null && dto.getOrder()>order ? dto.getOrder():order+1);
+        order = order == null ? 0 : order;
+        entity.setSlideOrder(dto.getOrder() != null && dto.getOrder() > order ? dto.getOrder() : order + 1);
         return slideMapper.toDtoResponse(slideRepository.save(entity));
     }
 }
