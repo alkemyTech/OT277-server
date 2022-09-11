@@ -30,17 +30,19 @@ public class TestimonialEntity {
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id;
 
-    @NotNull
+    @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false)
+    @Column(name = "image")
     private String image;
 
-    @Column(nullable = false)
+    @Column(name = "content")
+
     private String content;
 
     @CreatedDate
     @Column(columnDefinition = "timestamp")
     private Timestamp timestamp;
+
     private boolean softDelete;
 }
