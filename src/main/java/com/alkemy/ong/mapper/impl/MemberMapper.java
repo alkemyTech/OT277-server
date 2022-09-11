@@ -16,6 +16,7 @@ public class MemberMapper implements Mapper<MemberDTO, MemberEntity> {
         memberDTO.setFacebookUrl(memberEntity.getFacebookUrl());
         memberDTO.setInstagramUrl(memberEntity.getInstagramUrl());
         memberDTO.setLinkedinUrl(memberEntity.getLinkedinUrl());
+        memberDTO.setTimestamp(memberEntity.getTimestamp());
         return memberDTO;
     }
 

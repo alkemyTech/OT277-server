@@ -5,11 +5,13 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.constraints.NotEmpty;
+import java.sql.Timestamp;
+
 @Getter
 @Setter
 public class MemberDTO {
 
-    @NotEmpty
+    @NotEmpty(message="Name cannot be empty")
     private String name;
 
     private String facebookUrl;
@@ -20,9 +22,11 @@ public class MemberDTO {
 
     private String linkedinUrl;
 
-    @NotEmpty
+    @NotEmpty(message="Image cannot be empty")
     private String image;
 
 
     private String description;
+
+    private Timestamp timestamp;
 }
