@@ -6,10 +6,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
-import org.springframework.data.annotation.CreatedDate;
 
 
 import javax.persistence.*;
@@ -25,23 +25,24 @@ import java.sql.Timestamp;
 @SQLDelete(sql = "UPDATE categories SET soft_delete = true WHERE id=?")
 @Where(clause = "soft_delete=false")
 public class CategoryEntity {
-    @Id
-    @GeneratedValue(generator = "uuid")
-    @GenericGenerator(name = "uuid", strategy = "uuid2")
-    private String id;
 
-    @Column(nullable = false)
-    private String name;
+@Id
+@GeneratedValue(generator = "uuid")
+@GenericGenerator(name = "uuid", strategy = "uuid2")
+private String id;
 
-    private String description;
+@Column(nullable = false)
+private String name;
 
-    @Column(nullable = false)
-    private String image;
+@Column(nullable = false)
+private String description;
 
-    @CreatedDate
-    @Column(columnDefinition = "timestamp")
-    private Timestamp timestamps;
+@Column(nullable = false)
+private String image;
 
-    private Boolean softDelete = Boolean.FALSE;
+@CreationTimestamp
+private Timestamp timestamps;
+
+private Boolean softDelete = Boolean.FALSE;
 
 }

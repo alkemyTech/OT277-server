@@ -1,8 +1,8 @@
 package com.alkemy.ong.service;
 
-import com.alkemy.ong.dto.SlideDTO;
-import com.alkemy.ong.dto.SlideDTOResponse;
+import com.alkemy.ong.security.dto.SlideDTOResponse;
 
 public interface SlideService {
-    SlideDTOResponse saveSlide(SlideDTO dto);
+
+    SlideDTOResponse getById(String id);
 }

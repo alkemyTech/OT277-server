@@ -1,6 +1,5 @@
 package com.alkemy.ong.entity;
 
-import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,28 +18,35 @@ import java.sql.Timestamp;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@SQLDelete(sql = "UPDATE testimonials SET delete = true WHERE id = ?")
-@Where(clause = "delete = false")
-@Table(name = "testimonials")
 @EntityListeners(AuditingEntityListener.class)
+@SQLDelete(sql = "UPDATE contacts SET deletedAt = true WHERE id = ?")
+@Where(clause = "deletedAt = false")
+@Table(name = "contacts", indexes = @Index(name = "idx_contacts_email", columnList = "email"))
 
-public class TestimonialEntity {
+public class ContactEntity {
+
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id;
 
-    @NotNull
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(nullable = false)
-    private String image;
+    @Column(name = "phone", nullable = false)
+    private String phone;
 
     @Column(nullable = false)
-    private String content;
+    private String email;
+
+    @Column(nullable = false)
+    private String message;
 
     @CreatedDate
     @Column(columnDefinition = "timestamp")
-    private Timestamp timestamp;
-    private boolean softDelete;
+    private Timestamp timestamps;
+
+    @Column(name = "deletedAt")
+    private boolean deletedAt;
+
 }

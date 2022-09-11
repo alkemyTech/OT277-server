@@ -29,12 +29,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsCustomerService);
     }
-
     @Bean
-    public PasswordEncoder passwordEncoder() {
+    public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
-
     @Override
     @Bean
     public AuthenticationManager authenticationManagerBean() throws Exception {
@@ -50,7 +48,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public AuthenticationEntryPoint authenticationEntryPoint() {
         return new CustomAuthenticationEntryPoint();
     }
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf()
@@ -62,22 +59,25 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/auth/register", "/auth/login")
                 .permitAll()
 
-                .antMatchers(HttpMethod.GET, "/auth/me", "/users/**")
+                .antMatchers(HttpMethod.GET, "/auth/me",  "/users/**")
                 .hasAnyRole(RoleType.ADMIN.name(), RoleType.USER.name())
 
-                .antMatchers(HttpMethod.GET, "/organization/public/**")
+                .antMatchers(HttpMethod.GET,  "/organization/public/**")
                 .hasRole(RoleType.USER.name())
 
-                .antMatchers(HttpMethod.GET, "/news/**")
+                .antMatchers(HttpMethod.GET,  "/news/**")
                 .hasRole(RoleType.ADMIN.name())
 
-                .antMatchers(HttpMethod.DELETE, "/users/**")
+                .antMatchers(HttpMethod.DELETE,  "/users/**")
                 .hasAnyRole(RoleType.ADMIN.name(), RoleType.USER.name())
 
-                .antMatchers(HttpMethod.POST, "/activities", "/slides/**")
+                .antMatchers(HttpMethod.POST, "/activities")
                 .hasRole(RoleType.ADMIN.name())
 
-                .antMatchers(HttpMethod.PUT, "/activities/**", "/categories/**")
+                .antMatchers(HttpMethod.PUT, "/activities/**")
+                .hasRole(RoleType.ADMIN.name())
+
+                .antMatchers(HttpMethod.PUT, "/categories/**")
                 .hasRole(RoleType.ADMIN.name())
 
                 .antMatchers(HttpMethod.DELETE, "/categories/**", "/news/**")
@@ -85,9 +85,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .antMatchers(HttpMethod.PATCH, "/users/**")
                 .hasAnyRole(RoleType.ADMIN.name(), RoleType.USER.name())
-
-                .antMatchers(HttpMethod.POST, "/testimonials/**")
-                .hasAnyRole(RoleType.ADMIN.name())
 
                 .anyRequest()
                 .authenticated()

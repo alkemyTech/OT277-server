@@ -29,18 +29,19 @@ public class MemberEntity {
     @Column(nullable = false)
     private String name;
 
-    @Column(name = "facebook_url")
+    @Column(name = "facebook_url", nullable = false)
     private String facebookUrl;
 
-    @Column(name ="instagram_url")
+    @Column(name ="instagram_url", nullable = false)
     private String instagramUrl;
 
-    @Column(name = "linkedin_url")
+    @Column(name = "linkedin_url", nullable = false)
     private String linkedinUrl;
 
     @Column(nullable = false)
     private String image;
 
+    @Column(nullable = false)
     private String description;
 
     @Column(columnDefinition = "timestamp")

@@ -10,7 +10,6 @@ import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.List;
 
 @Entity
 @Getter
@@ -34,9 +33,10 @@ public class NewEntity {
     @Column(nullable = false)
     private String image;
 
-    @OneToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name = "category_id",nullable = false)
-    private List<CategoryEntity> categoryEntity;
+
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "categoryId",nullable = false)
+    private CategoryEntity categoryEntity;
 
     @CreationTimestamp
     @Column(columnDefinition = "timestamp")
