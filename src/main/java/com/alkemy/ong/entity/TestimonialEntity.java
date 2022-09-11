@@ -33,14 +33,16 @@ public class TestimonialEntity {
     @Column(nullable = false)
     private String name;
 
-
+    @Column(name = "image")
     private String image;
 
+    @Column(name = "content")
 
     private String content;
 
     @CreatedDate
     @Column(columnDefinition = "timestamp")
     private Timestamp timestamp;
+
     private boolean softDelete;
 }
