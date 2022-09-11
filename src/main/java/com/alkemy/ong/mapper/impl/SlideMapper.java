@@ -5,6 +5,11 @@ import com.alkemy.ong.dto.SlideDTOResponse;
 import com.alkemy.ong.entity.SlideEntity;
 import com.alkemy.ong.mapper.Mapper;
 import org.springframework.stereotype.Component;
+import com.alkemy.ong.security.dto.SlideDTOResponse;
+import java.util.ArrayList;
+import java.util.List;
+
+
 
 @Component
 public class SlideMapper implements Mapper<SlideDTO, SlideEntity> {
@@ -27,10 +32,20 @@ public class SlideMapper implements Mapper<SlideDTO, SlideEntity> {
     }
 
     public SlideDTOResponse toDtoResponse(SlideEntity entity){
+
         SlideDTOResponse dto = new SlideDTOResponse();
         dto.setImageUrl(entity.getImageUrl());
         dto.setText(entity.getText());
         dto.setOrder(entity.getSlideOrder());
         return dto;
     }
+
+    public List<SlideDTOResponse> toDtoResponseList(List<SlideEntity> entityList) {
+        List<SlideDTOResponse> dtoResponseList = new ArrayList<>();
+        for (SlideEntity entity : entityList) {
+            dtoResponseList.add(toDtoResponse(entity));
+        }
+        return dtoResponseList;
+    }
+
 }
