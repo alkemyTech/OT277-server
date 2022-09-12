@@ -44,5 +44,4 @@ public class SlideMapper implements Mapper<SlideDTO, SlideEntity> {
         }
         return dtoResponseList;
     }
-
 }

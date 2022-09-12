@@ -1,5 +1,6 @@
 package com.alkemy.ong.service.impl;
 
+
 import com.alkemy.ong.dto.SlideDTO;
 import com.alkemy.ong.dto.SlideDTOResponse;
 import com.alkemy.ong.entity.SlideEntity;
@@ -19,6 +20,7 @@ public class SlideServiceImpl implements SlideService {
 
     private final SlideRepository slideRepository;
     private final SlideMapper slideMapper;
+
     private final AmazonClient amazonClient;
 
     @Override
@@ -35,7 +37,6 @@ public class SlideServiceImpl implements SlideService {
     public List<SlideDTOResponse> getSlides() {
         return slideMapper.toDtoResponseList(slideRepository.findAll());
     }
-
     public SlideDTOResponse saveSlide(SlideDTO dto) {
         SlideEntity entity = slideMapper.toEntity(dto);
         entity.setImageUrl(amazonClient.uploadFile(dto.getImage_b64(), UUID.randomUUID().toString()));
@@ -43,5 +44,9 @@ public class SlideServiceImpl implements SlideService {
         order = order == null ? 0 : order;
         entity.setSlideOrder(dto.getOrder() != null && dto.getOrder() > order ? dto.getOrder() : order + 1);
         return slideMapper.toDtoResponse(slideRepository.save(entity));
+    }
+
+    public SlideDTOResponse getByIdResponse(String id){
+        return slideMapper.toDtoResponse(getById(id));
     }
 }

@@ -39,7 +39,7 @@ public class NewMapper implements Mapper<NewDTO, NewEntity> {
     //Precondicion recibir un id de new y un id de category correcto
     @Override
     public NewEntity toEntity(NewDTO newDto) {
-        NewEntity newEntity = new NewEntity();
+        var newEntity = new NewEntity();
         newEntity.setName(newDto.getName());
         newEntity.setContent(newDto.getContent());
         newEntity.setImage(newDto.getImage());
@@ -54,7 +54,7 @@ public class NewMapper implements Mapper<NewDTO, NewEntity> {
                 throw new RuntimeException(e);
             }
         }
-        newEntity.setCategoryEntity((List<CategoryEntity>) categoryEntity.get());
+       newEntity.setCategoryEntity(categoryEntity.get());
         return newEntity;
     }
 
