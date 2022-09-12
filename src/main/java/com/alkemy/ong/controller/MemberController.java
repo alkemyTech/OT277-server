@@ -5,10 +5,9 @@ import com.alkemy.ong.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -22,5 +21,11 @@ public class MemberController {
     public ResponseEntity<List<MemberDTO>> getAllMembers(){
         var members = memberService.getAllMembers();
         return ResponseEntity.status(HttpStatus.OK).body(members);
+    }
+
+    @PostMapping
+    public ResponseEntity<MemberDTO> saveMember(@Valid @RequestBody MemberDTO memberDTO){
+        var newMember = memberService.saveMember(memberDTO);
+        return ResponseEntity.status(HttpStatus.OK).body(newMember);
     }
 }

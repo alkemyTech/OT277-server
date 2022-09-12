@@ -21,4 +21,9 @@ public class MemberServiceImpl implements MemberService {
         var members = memberRepository.findAll();
         return members.stream().map(memberMapper::toDto).collect(Collectors.toList());
     }
+
+    @Override
+    public MemberDTO saveMember(MemberDTO memberDTO) {
+        return memberMapper.toDto(memberRepository.save(memberMapper.toEntity(memberDTO)));
+    }
 }

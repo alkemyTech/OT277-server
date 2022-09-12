@@ -7,4 +7,6 @@ import java.util.List;
 public interface MemberService {
 
     List<MemberDTO> getAllMembers();
+
+    MemberDTO saveMember(MemberDTO memberDTO);
 }
