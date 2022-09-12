@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -38,7 +39,7 @@ public class NewMapper implements Mapper<NewDTO, NewEntity> {
     //Precondicion recibir un id de new y un id de category correcto
     @Override
     public NewEntity toEntity(NewDTO newDto) {
-        var newEntity = new NewEntity();
+        NewEntity newEntity = new NewEntity();
         newEntity.setName(newDto.getName());
         newEntity.setContent(newDto.getContent());
         newEntity.setImage(newDto.getImage());
@@ -53,7 +54,7 @@ public class NewMapper implements Mapper<NewDTO, NewEntity> {
                 throw new RuntimeException(e);
             }
         }
-        newEntity.setCategoryEntity(categoryEntity.get());
+        newEntity.setCategoryEntity((List<CategoryEntity>) categoryEntity.get());
         return newEntity;
     }
 
@@ -69,7 +70,7 @@ public class NewMapper implements Mapper<NewDTO, NewEntity> {
         dto.setImage(entity.getImage());
         dto.setTimestamps(entity.getTimestamps());
         dto.setType(entity.getType());
-        dto.setCategory(categoryMapper.toDto(entity.getCategoryEntity()));
+        //dto.setCategory(categoryMapper.toDto(entity.getCategoryEntity()));
         return dto;
     }
 
