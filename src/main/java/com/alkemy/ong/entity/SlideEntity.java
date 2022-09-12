@@ -26,10 +26,10 @@ public class SlideEntity {
     private Integer slideOrder;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "organizationId",insertable = false,updatable = false)
+    @JoinColumn(name = "organization_id",insertable = false,updatable = false)
     private OrganizationEntity organizationEntity;
 
-    @Column(name = "organizationId",nullable = false)
+    @Column(name = "organization_id")
     private String organizationId;
 
 }
