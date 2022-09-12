@@ -9,4 +9,6 @@ public interface MemberService {
     List<MemberDTO> getAllMembers();
 
     MemberDTO saveMember(MemberDTO memberDTO);
+
+    void deleteMember(String id);
 }
