@@ -28,4 +28,10 @@ public class MemberController {
         var newMember = memberService.saveMember(memberDTO);
         return ResponseEntity.status(HttpStatus.OK).body(newMember);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteMember(@PathVariable String id){
+        this.memberService.deleteMember(id);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
 }

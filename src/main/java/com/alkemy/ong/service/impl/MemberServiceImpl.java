@@ -1,6 +1,7 @@
 package com.alkemy.ong.service.impl;
 
 import com.alkemy.ong.dto.MemberDTO;
+import com.alkemy.ong.exception.ParamNotFound;
 import com.alkemy.ong.mapper.impl.MemberMapper;
 import com.alkemy.ong.repository.MemberRepository;
 import com.alkemy.ong.service.MemberService;
@@ -25,5 +26,12 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public MemberDTO saveMember(MemberDTO memberDTO) {
         return memberMapper.toDto(memberRepository.save(memberMapper.toEntity(memberDTO)));
+    }
+
+    @Override
+    public void deleteMember(String id) {
+        var member = memberRepository.findById(id).orElseThrow(
+                ()-> new ParamNotFound("Member not found, id: "+ id));
+        this.memberRepository.delete(member);
     }
 }
