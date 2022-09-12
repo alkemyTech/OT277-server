@@ -12,7 +12,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Table(name = "slides")
-@SQLDelete(sql = "UPDATE users SET soft_delete = true WHERE id = ?")
+@SQLDelete(sql = "UPDATE slides SET soft_delete = true WHERE id = ?")
 @Where(clause = "soft_delete = false")
 public class SlideEntity {
 
@@ -35,7 +35,6 @@ public class SlideEntity {
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "organization_id",insertable = false,updatable = false)
     private OrganizationEntity organizationEntity;
-
 
     @Column(name = "organization_id")
     private String organizationId;

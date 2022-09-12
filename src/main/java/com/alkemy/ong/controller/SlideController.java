@@ -24,6 +24,7 @@ public class SlideController {
 
     @DeleteMapping("{id}")
     public ResponseEntity<Void> deleteSlide(@PathVariable String id) {
+        iSlideService.deleteSlide(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
     @GetMapping

@@ -27,8 +27,8 @@ public class SlideServiceImpl implements SlideService {
     }
 
     public SlideEntity getById(String id) {
-        return slideRepository.findById(id).orElseThrow(
-                () -> new ParamNotFound("Slide not found"));
+        return slideRepository.findByIdAndSoftDeleteFalse(id).orElseThrow(
+                () -> new ParamNotFound("Slide not found or disabled"));
     }
 
     @Override
