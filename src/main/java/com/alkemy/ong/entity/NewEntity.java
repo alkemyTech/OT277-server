@@ -34,9 +34,9 @@ public class NewEntity {
     @Column(nullable = false)
     private String image;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "category_id",nullable = false)
-    private List<CategoryEntity> categoryEntity;
+    private CategoryEntity categoryEntity;
 
     @CreationTimestamp
     @Column(columnDefinition = "timestamp")
