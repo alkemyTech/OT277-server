@@ -53,7 +53,7 @@ public class NewMapper implements Mapper<NewDTO, NewEntity> {
                 throw new RuntimeException(e);
             }
         }
-        newEntity.setCategoryEntity(categoryEntity.get());
+        //newEntity.setCategoryEntity(categoryEntity.get());
         return newEntity;
     }
 
@@ -69,7 +69,7 @@ public class NewMapper implements Mapper<NewDTO, NewEntity> {
         dto.setImage(entity.getImage());
         dto.setTimestamps(entity.getTimestamps());
         dto.setType(entity.getType());
-        dto.setCategory(categoryMapper.toDto(entity.getCategoryEntity()));
+       // dto.setCategory(categoryMapper.toDto(entity.getCategoryEntity()));
         return dto;
     }
 
