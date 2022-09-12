@@ -1,14 +1,12 @@
 package com.alkemy.ong.service.impl;
 
 
-import com.alkemy.ong.exception.ParamNotFound;
-import com.alkemy.ong.mapper.impl.SlideMapper;
-import com.alkemy.ong.repository.SlideRepository;
-
 import com.alkemy.ong.dto.SlideDTO;
 import com.alkemy.ong.dto.SlideDTOResponse;
 import com.alkemy.ong.entity.SlideEntity;
-
+import com.alkemy.ong.exception.ParamNotFound;
+import com.alkemy.ong.mapper.impl.SlideMapper;
+import com.alkemy.ong.repository.SlideRepository;
 import com.alkemy.ong.service.SlideService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,10 +22,15 @@ public class SlideServiceImpl implements SlideService {
     private final SlideMapper slideMapper;
 
     private final AmazonClient amazonClient;
+
     @Override
-    public SlideDTOResponse getById(String id) {
-        return slideMapper.toDtoResponse(slideRepository.findById(id).orElseThrow(
-                () -> new ParamNotFound("Slide not found")));
+    public void deleteSlide(String id) {
+        slideRepository.deleteById(getById(id).getId());
+    }
+
+    public SlideEntity getById(String id) {
+        return slideRepository.findByIdAndSoftDeleteFalse(id).orElseThrow(
+                () -> new ParamNotFound("Slide not found or disabled"));
     }
 
     @Override
@@ -41,6 +44,9 @@ public class SlideServiceImpl implements SlideService {
         order = order == null ? 0 : order;
         entity.setSlideOrder(dto.getOrder() != null && dto.getOrder() > order ? dto.getOrder() : order + 1);
         return slideMapper.toDtoResponse(slideRepository.save(entity));
+    }
 
+    public SlideDTOResponse getByIdResponse(String id){
+        return slideMapper.toDtoResponse(getById(id));
     }
 }

@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -31,7 +32,7 @@ public class NewMapper implements Mapper<NewDTO, NewEntity> {
         newDto.setImage(newEntity.getImage());
         newDto.setTimestamps(newEntity.getTimestamps());
         newDto.setType(newEntity.getType());
-        //newDto.setCategoryDto(categoryMapper.toDto(newEntity.getCategoryEntity()));
+        newDto.setCategoryDto(categoryMapper.toDto(newEntity.getCategoryEntity()));
         return newDto;
     }
 
@@ -53,7 +54,7 @@ public class NewMapper implements Mapper<NewDTO, NewEntity> {
                 throw new RuntimeException(e);
             }
         }
-        //newEntity.setCategoryEntity(categoryEntity.get());
+       newEntity.setCategoryEntity(categoryEntity.get());
         return newEntity;
     }
 
@@ -69,7 +70,7 @@ public class NewMapper implements Mapper<NewDTO, NewEntity> {
         dto.setImage(entity.getImage());
         dto.setTimestamps(entity.getTimestamps());
         dto.setType(entity.getType());
-       // dto.setCategory(categoryMapper.toDto(entity.getCategoryEntity()));
+        dto.setCategory(categoryMapper.toDto(entity.getCategoryEntity()));
         return dto;
     }
 
