@@ -32,7 +32,7 @@ public class NewMapper implements Mapper<NewDTO, NewEntity> {
         newDto.setImage(newEntity.getImage());
         newDto.setTimestamps(newEntity.getTimestamps());
         newDto.setType(newEntity.getType());
-        //newDto.setCategoryDto(categoryMapper.toDto(newEntity.getCategoryEntity()));
+        newDto.setCategoryDto(categoryMapper.toDto(newEntity.getCategoryEntity()));
         return newDto;
     }
 
@@ -70,7 +70,7 @@ public class NewMapper implements Mapper<NewDTO, NewEntity> {
         dto.setImage(entity.getImage());
         dto.setTimestamps(entity.getTimestamps());
         dto.setType(entity.getType());
-        //dto.setCategory(categoryMapper.toDto(entity.getCategoryEntity()));
+        dto.setCategory(categoryMapper.toDto(entity.getCategoryEntity()));
         return dto;
     }
 
