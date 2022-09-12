@@ -28,4 +28,11 @@ public class MemberController {
         var newMember = memberService.saveMember(memberDTO);
         return ResponseEntity.status(HttpStatus.OK).body(newMember);
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<MemberDTO> updateMember(@Valid @RequestBody MemberDTO memberDTO,
+                                                  @PathVariable String id){
+        var saveMember = memberService.updateMember(id, memberDTO);
+        return ResponseEntity.status(HttpStatus.OK).body(saveMember);
+    }
 }
