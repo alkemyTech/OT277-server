@@ -20,7 +20,6 @@ public class CommentServiceImp  implements CommentService {
     private final UserService userService;
     private final NewService newService;
     private final CommentMapper commentMapper;
-
     private final CommentRepository commentRepository;
     @Override
     public CommentDtoResponse saveComment(CommentDtoRequest comment) {
@@ -31,5 +30,14 @@ public class CommentServiceImp  implements CommentService {
         commentEntity.setUserEntity(user);
         var response = commentRepository.save(commentEntity);
         return commentMapper.toDto(response);
+    }
+
+    @Override
+    public CommentDtoResponse updateComment(CommentDtoRequest comment, String commentId) {
+        var commentEntity = commentRepository.findById(commentId).orElseThrow(
+                ()-> new ParamNotFound("Comment whit id: "+commentId+" not found")
+        );
+        commentEntity.setBody(comment.getBody());
+        return commentMapper.toDto(commentRepository.save(commentEntity));
     }
 }
