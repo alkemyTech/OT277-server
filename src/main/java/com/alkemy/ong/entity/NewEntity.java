@@ -30,7 +30,7 @@ public class NewEntity {
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false, columnDefinition = "text")
+    @Column(columnDefinition = "text")
     private String content;
 
     @Column(nullable = false)
