@@ -28,6 +28,15 @@ public class SlideServiceImpl implements SlideService {
         slideRepository.deleteById(getById(id).getId());
     }
 
+    @Override
+    public SlideDTOResponse update(String id, SlideDTO dto) {
+        SlideEntity entity = getById(id);
+        entity.setText(dto.getText() != null ? dto.getText() : entity.getText());
+        entity.setImageUrl(dto.getImage_b64() == null ? entity.getImageUrl() : generateUrlAmazon(dto.getImage_b64()));
+        entity.setSlideOrder(dto.getOrder() == null ? entity.getSlideOrder() : (!slideRepository.existsBySlideOrder(dto.getOrder())) ? dto.getOrder() : generateOrder());
+        return slideMapper.toDtoResponse(slideRepository.save(entity));
+    }
+
     public SlideEntity getById(String id) {
         return slideRepository.findByIdAndSoftDeleteFalse(id).orElseThrow(
                 () -> new ParamNotFound("Slide not found or disabled"));
@@ -37,16 +46,26 @@ public class SlideServiceImpl implements SlideService {
     public List<SlideDTOResponse> getSlides() {
         return slideMapper.toDtoResponseList(slideRepository.findAll());
     }
+
     public SlideDTOResponse saveSlide(SlideDTO dto) {
         SlideEntity entity = slideMapper.toEntity(dto);
-        entity.setImageUrl(amazonClient.uploadFile(dto.getImage_b64(), UUID.randomUUID().toString()));
-        Integer order = slideRepository.findNextMaxSlideOrder();
-        order = order == null ? 0 : order;
+        entity.setImageUrl(generateUrlAmazon(dto.getImage_b64()));
+        Integer order = generateOrder();
         entity.setSlideOrder(dto.getOrder() != null && dto.getOrder() > order ? dto.getOrder() : order + 1);
         return slideMapper.toDtoResponse(slideRepository.save(entity));
     }
 
-    public SlideDTOResponse getByIdResponse(String id){
+    public String generateUrlAmazon(String imageB64) {
+        return amazonClient.uploadFile(imageB64, UUID.randomUUID().toString());
+    }
+
+    public Integer generateOrder() {
+        Integer order = slideRepository.findNextMaxSlideOrder();
+        return order == null ? 0 : order;
+    }
+
+    public SlideDTOResponse getByIdResponse(String id) {
         return slideMapper.toDtoResponse(getById(id));
     }
+
 }
