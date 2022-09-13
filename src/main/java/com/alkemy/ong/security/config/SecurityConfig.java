@@ -92,7 +92,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/members")
                 .hasAnyRole(RoleType.USER.name())
                 
-                .antMatchers(HttpMethod.PUT, "/members/**")
+                .antMatchers(HttpMethod.PUT, "/members/**", "/comments/**")
                 .hasAnyRole(RoleType.USER.name())
 
                 .anyRequest()

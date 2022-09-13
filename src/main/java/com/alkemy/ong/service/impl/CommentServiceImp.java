@@ -8,6 +8,8 @@ import com.alkemy.ong.repository.CommentRepository;
 import com.alkemy.ong.repository.NewRepository;
 import com.alkemy.ong.repository.UserRepository;
 import com.alkemy.ong.service.CommentService;
+import com.alkemy.ong.service.NewService;
+import com.alkemy.ong.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,23 +17,27 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class CommentServiceImp  implements CommentService {
 
-    private final UserRepository userRepository;
-    private final NewRepository newRepository;
+    private final UserService userService;
+    private final NewService newService;
     private final CommentMapper commentMapper;
-
     private final CommentRepository commentRepository;
     @Override
     public CommentDtoResponse saveComment(CommentDtoRequest comment) {
-        var user = userRepository.findById(comment.getUser()).orElseThrow(
-                ()-> new ParamNotFound("User whit id: "+ comment.getUser()+" not found.")
-        );
-        var news = newRepository.findById(comment.getNews()).orElseThrow(
-                ()-> new ParamNotFound("News whit id: "+ comment.getNews()+" not found.")
-        );
+        var user = userService.getUserByID(comment.getUserId());
+        var news = newService.getNewId(comment.getNewsId());
         var commentEntity = commentMapper.toEntity(comment);
         commentEntity.setNewEntity(news);
         commentEntity.setUserEntity(user);
         var response = commentRepository.save(commentEntity);
         return commentMapper.toDto(response);
+    }
+
+    @Override
+    public CommentDtoResponse updateComment(CommentDtoRequest comment, String commentId) {
+        var commentEntity = commentRepository.findById(commentId).orElseThrow(
+                ()-> new ParamNotFound("Comment whit id: "+commentId+" not found")
+        );
+        commentEntity.setBody(comment.getBody());
+        return commentMapper.toDto(commentRepository.save(commentEntity));
     }
 }

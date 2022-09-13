@@ -22,4 +22,10 @@ public class TestimonialController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
+    @PutMapping("/{testId}")
+    public ResponseEntity<TestimonialDTO> update(@Valid @RequestBody TestimonialDTO dto,
+                                                 @PathVariable String testId) {
+        TestimonialDTO response = testimonialService.update(dto, testId);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
 }
