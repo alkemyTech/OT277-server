@@ -29,6 +29,13 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    public void deleteMember(String id) {
+        var member = memberRepository.findById(id).orElseThrow(
+                ()-> new ParamNotFound("Member not found, id: "+ id));
+        this.memberRepository.delete(member);
+    }
+
+    @Override
     public MemberDTO updateMember(String id, MemberDTO memberDTO) {
         var member = memberRepository.findById(id).orElseThrow(
                 ()-> new ParamNotFound("Member whit id: "+id+" not found"));

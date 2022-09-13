@@ -29,6 +29,12 @@ public class MemberController {
         return ResponseEntity.status(HttpStatus.OK).body(newMember);
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteMember(@PathVariable String id){
+        this.memberService.deleteMember(id);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<MemberDTO> updateMember(@Valid @RequestBody MemberDTO memberDTO,
                                                   @PathVariable String id){
