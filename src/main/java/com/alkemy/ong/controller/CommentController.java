@@ -6,10 +6,9 @@ import com.alkemy.ong.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/comments")
@@ -19,8 +18,15 @@ public class CommentController {
     private final CommentService commentService;
 
     @PostMapping
-    public ResponseEntity<CommentDtoResponse> saveComment(@RequestBody CommentDtoRequest comment){
+    public ResponseEntity<CommentDtoResponse> saveComment(@Valid @RequestBody CommentDtoRequest comment){
         var saveComment = commentService.saveComment(comment);
         return ResponseEntity.status(HttpStatus.CREATED).body(saveComment);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<CommentDtoResponse> updateComment(@Valid @RequestBody CommentDtoRequest comment,
+                                                            @PathVariable String id){
+        var updateComment = commentService.updateComment(comment, id);
+        return ResponseEntity.status(HttpStatus.CREATED).body(updateComment);
     }
 }
