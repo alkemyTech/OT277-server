@@ -11,4 +11,6 @@ public interface OrganizationService {
     OrganizationEntity getById(String id);
 
     OrganizationDTO save(OrganizationDTO dto);
+
+    void delete(String id);
 }
