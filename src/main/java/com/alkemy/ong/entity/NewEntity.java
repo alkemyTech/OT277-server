@@ -10,7 +10,9 @@ import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -46,5 +48,8 @@ public class NewEntity {
     private String type;
 
     private boolean softDelete = Boolean.FALSE;
+
+    @OneToMany(mappedBy = "newEntity", cascade = CascadeType.ALL)
+    private Set<CommentEntity> comments = new HashSet<>();
 
 }
