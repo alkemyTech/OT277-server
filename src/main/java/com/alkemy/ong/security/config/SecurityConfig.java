@@ -68,30 +68,27 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/organization/public/**")
                 .hasRole(RoleType.USER.name())
 
-                .antMatchers(HttpMethod.GET,  "/news/**", "/members", "/slides/**")
+                .antMatchers(HttpMethod.GET,  "/news/**", "/members", "/slides/**", "/slide")
                 .hasRole(RoleType.ADMIN.name())
 
                 .antMatchers(HttpMethod.DELETE, "/users/**")
                 .hasAnyRole(RoleType.ADMIN.name(), RoleType.USER.name())
 
-                .antMatchers(HttpMethod.POST, "/activities", "/slides/**")
+                .antMatchers(HttpMethod.POST, "/activities", "/slides/**", "/testimonials/**")
                 .hasRole(RoleType.ADMIN.name())
 
                 .antMatchers(HttpMethod.PUT, "/activities/**", "/categories/**", "/slides/**")
                 .hasRole(RoleType.ADMIN.name())
 
-                .antMatchers(HttpMethod.DELETE, "/categories/**", "/news/**", "/members/**", "/slides/**")
+                .antMatchers(HttpMethod.DELETE, "/categories/**", "/news/**", "/members/**", "/slides/**", "/organization/**")
                 .hasRole(RoleType.ADMIN.name())
 
                 .antMatchers(HttpMethod.PATCH, "/users/**")
                 .hasAnyRole(RoleType.ADMIN.name(), RoleType.USER.name())
 
-                .antMatchers(HttpMethod.POST, "/testimonials/**")
-                .hasAnyRole(RoleType.ADMIN.name())
-
                 .antMatchers(HttpMethod.POST, "/members")
                 .hasAnyRole(RoleType.USER.name())
-                
+
                 .antMatchers(HttpMethod.PUT, "/members/**", "/comments/**")
                 .hasAnyRole(RoleType.USER.name())
 

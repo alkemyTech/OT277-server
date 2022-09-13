@@ -17,20 +17,26 @@ public class OrganizationController {
     private final OrganizationService organizationService;
 
     @GetMapping("/public/{id}")
-    public ResponseEntity<OrganizationDTO> publicInformation(@PathVariable String id){
+    public ResponseEntity<OrganizationDTO> publicInformation(@PathVariable String id) {
         OrganizationDTO result = organizationService.getPublicInformation(id);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
     @PutMapping("/public/{id}")
-    public ResponseEntity<OrganizationDTO> update(@Valid @RequestBody OrganizationDTO dto, @PathVariable String id){
-        OrganizationDTO result = organizationService.update(dto,id);
+    public ResponseEntity<OrganizationDTO> update(@Valid @RequestBody OrganizationDTO dto, @PathVariable String id) {
+        OrganizationDTO result = organizationService.update(dto, id);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
     @PostMapping
-    public ResponseEntity<OrganizationDTO> save(@Valid @RequestBody OrganizationDTO dto){
+    public ResponseEntity<OrganizationDTO> save(@Valid @RequestBody OrganizationDTO dto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(organizationService.save(dto));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable String id) {
+        organizationService.delete(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
 }

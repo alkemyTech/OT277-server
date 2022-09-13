@@ -35,11 +35,16 @@ public class OrganizationServiceImp implements OrganizationService {
 
     public OrganizationEntity getById(String id) {
         return organizationRepository.findById(id).orElseThrow(
-                () -> new ParamNotFound("Organization not found"));
+                () -> new ParamNotFound("Organization not found or disabled"));
     }
 
     @Override
     public OrganizationDTO save(OrganizationDTO dto) {
         return organizationMapper.toDto(organizationRepository.save(organizationMapper.toEntity(dto)));
+    }
+
+    @Override
+    public void delete(String id) {
+        organizationRepository.deleteById(getById(id).getId());
     }
 }
