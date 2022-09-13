@@ -21,7 +21,7 @@ public class SlideServiceImpl implements SlideService {
     private final SlideRepository slideRepository;
     private final SlideMapper slideMapper;
     private final AmazonClient amazonClient;
-
+    private final OrganizationServiceImp organizationService;
 
     public SlideDTOResponse saveSlide(SlideDTO dto) {
         SlideEntity entity = slideMapper.toEntity(dto);
@@ -41,7 +41,7 @@ public class SlideServiceImpl implements SlideService {
         SlideEntity entity = getById(id);
         entity.setText(dto.getText() != null ? dto.getText() : entity.getText());
         entity.setImageUrl(dto.getImage_b64() == null ? entity.getImageUrl() : generateUrlAmazon(dto.getImage_b64()));
-        entity.setOrganizationId(dto.getOrganization_id() == null ? entity.getOrganizationId() : dto.getOrganization_id());
+        entity.setOrganizationId(dto.getOrganization_id() == null ? entity.getOrganizationId() : organizationService.getById(dto.getOrganization_id()).getId());
         Integer orderDto = dto.getOrder();
         List<Integer> orderList = slideRepository.findSlideOrder(entity.getOrganizationId());
         if (orderList.contains(orderDto) && entity.getSlideOrder().equals(orderDto)) {

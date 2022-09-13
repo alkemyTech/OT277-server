@@ -16,6 +16,7 @@ import java.util.List;
 public class SlideMapper implements Mapper<SlideDTO, SlideEntity> {
 
     private final OrganizationServiceImp organizationService;
+    private final OrganizationMapper organizationMapper;
 
     @Override
     public SlideDTO toDto(SlideEntity slideEntity) {
@@ -26,7 +27,7 @@ public class SlideMapper implements Mapper<SlideDTO, SlideEntity> {
     public SlideEntity toEntity(SlideDTO slideDTO) {
         SlideEntity entity = new SlideEntity();
         entity.setText(slideDTO.getText());
-        entity.setOrganizationId(organizationService.getById(slideDTO.getOrganization_id()).getId());
+        entity.setOrganizationId(slideDTO.getOrganization_id() != null || slideDTO.getOrganization_id().equals("") ? organizationService.getById(slideDTO.getOrganization_id()).getId() : null);
         return entity;
     }
 
@@ -40,6 +41,10 @@ public class SlideMapper implements Mapper<SlideDTO, SlideEntity> {
         dto.setImageUrl(entity.getImageUrl());
         dto.setText(entity.getText());
         dto.setOrder(entity.getSlideOrder());
+        if (entity.getOrganizationId() != null) {
+            dto.setOrganization(organizationMapper.toDto(
+                    organizationService.getById(entity.getOrganizationId())));
+        }
         return dto;
     }
 
