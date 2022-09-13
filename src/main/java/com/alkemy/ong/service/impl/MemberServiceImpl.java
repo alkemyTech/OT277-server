@@ -34,4 +34,17 @@ public class MemberServiceImpl implements MemberService {
                 ()-> new ParamNotFound("Member not found, id: "+ id));
         this.memberRepository.delete(member);
     }
+
+    @Override
+    public MemberDTO updateMember(String id, MemberDTO memberDTO) {
+        var member = memberRepository.findById(id).orElseThrow(
+                ()-> new ParamNotFound("Member whit id: "+id+" not found"));
+        member.setName(memberDTO.getName());
+        member.setDescription(memberDTO.getDescription());
+        member.setFacebookUrl(memberDTO.getFacebookUrl());
+        member.setInstagramUrl(memberDTO.getInstagramUrl());
+        member.setLinkedinUrl(memberDTO.getLinkedinUrl());
+        member.setImage(memberDTO.getImage());
+        return memberMapper.toDto(memberRepository.save(member));
+    }
 }
