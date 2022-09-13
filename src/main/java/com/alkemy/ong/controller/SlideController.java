@@ -40,7 +40,7 @@ public class SlideController {
         return ResponseEntity.ok().body(iSlideService.saveSlide(dto));
     }
 
-    @PostMapping("{id}")
+    @PutMapping("{id}")
     public ResponseEntity<SlideDTOResponse> update(@RequestBody SlideDTO dto, @PathVariable String id){
         return ResponseEntity.ok().body(iSlideService.update(id, dto));
     }
