@@ -10,7 +10,9 @@ import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -28,15 +30,15 @@ public class NewEntity {
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false, columnDefinition = "text")
+    @Column(columnDefinition = "text")
     private String content;
 
     @Column(nullable = false)
     private String image;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "category_id",nullable = false)
-    private List<CategoryEntity> categoryEntity;
+    private CategoryEntity categoryEntity;
 
     @CreationTimestamp
     @Column(columnDefinition = "timestamp")
@@ -46,5 +48,8 @@ public class NewEntity {
     private String type;
 
     private boolean softDelete = Boolean.FALSE;
+
+    @OneToMany(mappedBy = "newEntity", cascade = CascadeType.ALL)
+    private Set<CommentEntity> comments = new HashSet<>();
 
 }

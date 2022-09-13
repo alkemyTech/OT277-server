@@ -1,6 +1,5 @@
 package com.alkemy.ong.entity;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,38 +13,28 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.*;
 import java.sql.Timestamp;
 
-@Entity
+@Entity(name = "comments")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
-@SQLDelete(sql = "UPDATE members SET soft_delete = true WHERE id = ?")
+@SQLDelete(sql = "UPDATE comments SET soft_delete = true WHERE id = ?")
 @Where(clause = "soft_delete = false")
-@Table(name = "members", indexes = @Index(name = "idx_members_name", columnList = "name"))
-public class MemberEntity {
-
+public class CommentEntity {
     @Id
     @GeneratedValue(generator = "uuid")
-    @GenericGenerator(name="uuid", strategy = "uuid2")
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id;
 
     @Column(nullable = false)
-    private String name;
+    private String body;
 
-    @Column(name = "facebook_url")
-    private String facebookUrl;
+    @ManyToOne
+    private NewEntity newEntity;
 
-    @Column(name ="instagram_url")
-    private String instagramUrl;
-
-    @Column(name = "linkedin_url")
-    private String linkedinUrl;
-
-    @Column(nullable = false)
-    private String image;
-
-    private String description;
+    @ManyToOne
+    private UserEntity userEntity;
 
     @Column(columnDefinition = "timestamp")
     @CreatedDate
@@ -53,6 +42,4 @@ public class MemberEntity {
 
     @Column(name = "soft_delete")
     private boolean softDelete;
-
-
 }

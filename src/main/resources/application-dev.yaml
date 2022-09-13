@@ -15,6 +15,6 @@ jackson:
   default-property-inclusion: non_default
 amazonProperties:
   endpointUrl: https://s3.us-east-2.amazonaws.com
-  accessKey: ${Access_Key}
-  secretKey: ${Secret_Key}
+  accessKey: ${ACCESS_KEY}
+  secretKey: ${SECRET_KEY}
   bucketName: cohorte-agosto-38d749a7
