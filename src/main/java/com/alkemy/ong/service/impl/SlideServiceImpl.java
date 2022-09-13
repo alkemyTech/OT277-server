@@ -33,7 +33,7 @@ public class SlideServiceImpl implements SlideService {
         SlideEntity entity = getById(id);
         entity.setText(dto.getText() != null ? dto.getText() : entity.getText());
         entity.setImageUrl(dto.getImage_b64() == null ? entity.getImageUrl() : generateUrlAmazon(dto.getImage_b64()));
-        entity.setSlideOrder(dto.getOrder() == null ? entity.getSlideOrder() : (!slideRepository.existsBySlideOrder(dto.getOrder())) ? dto.getOrder() : generateOrder());
+        entity.setSlideOrder(dto.getOrder() == null || dto.getOrder() == slideRepository.findNextMaxSlideOrder(dto.getOrganization_id()) ? entity.getSlideOrder() : dto.getOrder());
         return slideMapper.toDtoResponse(slideRepository.save(entity));
     }
 
@@ -50,7 +50,7 @@ public class SlideServiceImpl implements SlideService {
     public SlideDTOResponse saveSlide(SlideDTO dto) {
         SlideEntity entity = slideMapper.toEntity(dto);
         entity.setImageUrl(generateUrlAmazon(dto.getImage_b64()));
-        Integer order = generateOrder();
+        Integer order = generateOrder(dto.getOrganization_id());
         entity.setSlideOrder(dto.getOrder() != null && dto.getOrder() > order ? dto.getOrder() : order + 1);
         return slideMapper.toDtoResponse(slideRepository.save(entity));
     }
@@ -59,8 +59,8 @@ public class SlideServiceImpl implements SlideService {
         return amazonClient.uploadFile(imageB64, UUID.randomUUID().toString());
     }
 
-    public Integer generateOrder() {
-        Integer order = slideRepository.findNextMaxSlideOrder();
+    public Integer generateOrder(String organizationId) {
+        Integer order = slideRepository.findNextMaxSlideOrder(organizationId);
         return order == null ? 0 : order;
     }
 

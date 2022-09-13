@@ -22,5 +22,5 @@ public interface SlideService {
 
     String generateUrlAmazon(String imageB64);
 
-    Integer generateOrder();
+    Integer generateOrder(String organizationId);
 }

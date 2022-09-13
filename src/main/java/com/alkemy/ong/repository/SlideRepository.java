@@ -9,11 +9,9 @@ import java.util.Optional;
 
 public interface SlideRepository extends JpaRepository<SlideEntity, String> {
 
-    @Query(value = "SELECT MAX(slide_order) FROM slides", nativeQuery = true)
-    Integer findNextMaxSlideOrder();
+    @Query(value = "SELECT MAX(slide_order) FROM slides WHERE organization_id LIKE :organizationId", nativeQuery = true)
+    Integer findNextMaxSlideOrder(@Param("organizationId") String organizationId);
 
     Optional<SlideEntity> findByIdAndSoftDeleteFalse(String id);
-
-    boolean existsBySlideOrder(Integer slideOrder);
 
 }
