@@ -20,8 +20,16 @@ public class SlideServiceImpl implements SlideService {
 
     private final SlideRepository slideRepository;
     private final SlideMapper slideMapper;
-
     private final AmazonClient amazonClient;
+
+
+    public SlideDTOResponse saveSlide(SlideDTO dto) {
+        SlideEntity entity = slideMapper.toEntity(dto);
+        entity.setImageUrl(generateUrlAmazon(dto.getImage_b64()));
+        Integer order = generateOrder(dto.getOrganization_id());
+        entity.setSlideOrder(dto.getOrder() != null && dto.getOrder() > order ? dto.getOrder() : order + 1);
+        return slideMapper.toDtoResponse(slideRepository.save(entity));
+    }
 
     @Override
     public void deleteSlide(String id) {
@@ -34,8 +42,15 @@ public class SlideServiceImpl implements SlideService {
         entity.setText(dto.getText() != null ? dto.getText() : entity.getText());
         entity.setImageUrl(dto.getImage_b64() == null ? entity.getImageUrl() : generateUrlAmazon(dto.getImage_b64()));
         entity.setOrganizationId(dto.getOrganization_id() == null ? entity.getOrganizationId() : dto.getOrganization_id());
-        Integer order = generateOrder(dto.getOrganization_id());
-        entity.setSlideOrder(dto.getOrder() != null && dto.getOrder() > order ? dto.getOrder() : order + 1);
+        Integer orderDto = dto.getOrder();
+        List<Integer> orderList = slideRepository.findSlideOrder(entity.getOrganizationId());
+        if (orderList.contains(orderDto) && entity.getSlideOrder().equals(orderDto)) {
+            entity.setSlideOrder(orderDto);
+        } else if (!orderList.contains(orderDto)) {
+            entity.setSlideOrder(orderDto);
+        } else {
+            entity.setSlideOrder(generateOrder(entity.getOrganizationId()) + 1);
+        }
         return slideMapper.toDtoResponse(slideRepository.save(entity));
     }
 
@@ -49,13 +64,6 @@ public class SlideServiceImpl implements SlideService {
         return slideMapper.toDtoResponseList(slideRepository.findAll());
     }
 
-    public SlideDTOResponse saveSlide(SlideDTO dto) {
-        SlideEntity entity = slideMapper.toEntity(dto);
-        entity.setImageUrl(generateUrlAmazon(dto.getImage_b64()));
-        Integer order = generateOrder(dto.getOrganization_id());
-        entity.setSlideOrder(dto.getOrder() != null && dto.getOrder() > order ? dto.getOrder() : order + 1);
-        return slideMapper.toDtoResponse(slideRepository.save(entity));
-    }
 
     public String generateUrlAmazon(String imageB64) {
         return amazonClient.uploadFile(imageB64, UUID.randomUUID().toString());
