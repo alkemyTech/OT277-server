@@ -16,4 +16,6 @@ public interface UserService {
     List<UserDto> findAll();
 
     void deleteUser(String id);
+
+    UserEntity getUserByID(String userId);
 }

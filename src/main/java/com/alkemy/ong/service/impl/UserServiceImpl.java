@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserService {
 
 
     public UserDto patchUser(UserDto userDto, String id) {
-        var user = getUser(id);
+        var user = getUserByID(id);
         user.setFirstName(userDto.getFirstName());
         user.setLastName(userDto.getLastName());
         user.setPassword(new BCryptPasswordEncoder().encode(userDto.getPassword()));
@@ -48,7 +48,7 @@ public class UserServiceImpl implements UserService {
         return userMapper.toBasicDto(userRepository.save(user));
     }
 
-    private UserEntity getUser(String userId){
+    public UserEntity getUserByID(String userId){
         return userRepository.findById(userId).orElseThrow(
                 ()->new ParamNotFound("User not found: "+ userId));
     }

@@ -31,19 +31,19 @@ public class NewServiceImp implements NewService {
 
     @Override
     public void deleteNew(String id) {
-        NewEntity newEntity = getNew(id);
+        NewEntity newEntity = getNewId(id);
         newRepository.deleteById(id);
     }
     
     public NewDtoResponse getNewById(String id){
-        NewEntity newEntity = getNew(id);
+        NewEntity newEntity = getNewId(id);
         NewDtoResponse dto = newMapper.toNewDtoResponse(newEntity);
         return dto;
     }
 
     @Override
     public NewDtoResponse update(String id, NewDTO newDto) {
-        NewEntity newEntity = getNew(id);
+        NewEntity newEntity = getNewId(id);
 
         newEntity = newMapper.toEntity(newDto);
         newEntity.setId(id);
@@ -51,7 +51,7 @@ public class NewServiceImp implements NewService {
     }
 
 
-    private NewEntity getNew(String newId){
+    public NewEntity getNewId(String newId){
         return newRepository.findById(newId).orElseThrow(
                 ()->new ParamNotFound("New not found: "+ newId));
     }
