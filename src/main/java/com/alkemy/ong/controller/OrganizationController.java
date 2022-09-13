@@ -28,4 +28,9 @@ public class OrganizationController {
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
+    @PostMapping
+    public ResponseEntity<OrganizationDTO> save(@Valid @RequestBody OrganizationDTO dto){
+        return ResponseEntity.status(HttpStatus.CREATED).body(organizationService.save(dto));
+    }
+
 }

@@ -6,8 +6,6 @@ import com.alkemy.ong.entity.SlideEntity;
 
 import java.util.List;
 
-import java.util.List;
-
 public interface SlideService {
 
     SlideDTOResponse saveSlide(SlideDTO dto);
@@ -20,4 +18,9 @@ public interface SlideService {
 
     void deleteSlide(String id);
 
+    SlideDTOResponse update(String id, SlideDTO dto);
+
+    String generateUrlAmazon(String imageB64);
+
+    Integer generateOrder(String organizationId);
 }
