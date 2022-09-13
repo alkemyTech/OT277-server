@@ -28,12 +28,12 @@ public class CommentEntity {
     private String id;
 
     @Column(nullable = false)
-    private String content;
+    private String body;
 
-    @ManyToOne(optional = false)
+    @ManyToOne
     private NewEntity newEntity;
 
-    @ManyToOne(optional = false)
+    @ManyToOne
     private UserEntity userEntity;
 
     @Column(columnDefinition = "timestamp")

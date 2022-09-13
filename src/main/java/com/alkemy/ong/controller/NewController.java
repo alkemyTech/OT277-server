@@ -31,7 +31,7 @@ public class NewController {
     } 
     
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<NewDtoResponse> getNewById(@PathVariable String id){
         NewDtoResponse result = newService.getNewById(id);
         return ResponseEntity.status(HttpStatus.OK).body(result);

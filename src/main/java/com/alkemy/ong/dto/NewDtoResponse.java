@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.sql.Timestamp;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -23,5 +25,7 @@ public class NewDtoResponse {
     private Timestamp timestamps;
 
     private String type;
+
+    Set<CommentDtoResponse> comments = new HashSet<>();
 
 }

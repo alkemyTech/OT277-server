@@ -1,5 +1,6 @@
 package com.alkemy.ong.mapper.impl;
 
+import com.alkemy.ong.dto.CommentDtoResponse;
 import com.alkemy.ong.dto.NewDTO;
 import com.alkemy.ong.dto.NewDtoResponse;
 import com.alkemy.ong.entity.CategoryEntity;
@@ -13,6 +14,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -22,6 +25,8 @@ public class NewMapper implements Mapper<NewDTO, NewEntity> {
     private final CategoryMapper categoryMapper;
 
     private final CategoryRepository categoryRepository;
+
+    private final CommentMapper commentMapper;
 
     //No se usa
     @Override
@@ -71,6 +76,8 @@ public class NewMapper implements Mapper<NewDTO, NewEntity> {
         dto.setTimestamps(entity.getTimestamps());
         dto.setType(entity.getType());
         dto.setCategory(categoryMapper.toDto(entity.getCategoryEntity()));
+        var comments = entity.getComments();
+        dto.setComments(comments.stream().map(commentMapper::toDto).collect(Collectors.toSet()));
         return dto;
     }
 
