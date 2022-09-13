@@ -9,4 +9,6 @@ public interface OrganizationService {
     OrganizationDTO update(OrganizationDTO dto, String id);
 
     OrganizationEntity getById(String id);
+
+    OrganizationDTO save(OrganizationDTO dto);
 }

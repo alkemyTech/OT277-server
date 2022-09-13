@@ -37,4 +37,9 @@ public class OrganizationServiceImp implements OrganizationService {
         return organizationRepository.findById(id).orElseThrow(
                 () -> new ParamNotFound("Organization not found"));
     }
+
+    @Override
+    public OrganizationDTO save(OrganizationDTO dto) {
+        return organizationMapper.toDto(organizationRepository.save(organizationMapper.toEntity(dto)));
+    }
 }
