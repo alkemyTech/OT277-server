@@ -33,7 +33,9 @@ public class SlideServiceImpl implements SlideService {
         SlideEntity entity = getById(id);
         entity.setText(dto.getText() != null ? dto.getText() : entity.getText());
         entity.setImageUrl(dto.getImage_b64() == null ? entity.getImageUrl() : generateUrlAmazon(dto.getImage_b64()));
-        entity.setSlideOrder(dto.getOrder() == null || dto.getOrder() == slideRepository.findNextMaxSlideOrder(dto.getOrganization_id()) ? entity.getSlideOrder() : dto.getOrder());
+        entity.setOrganizationId(dto.getOrganization_id() == null ? entity.getOrganizationId() : dto.getOrganization_id());
+        Integer order = generateOrder(dto.getOrganization_id());
+        entity.setSlideOrder(dto.getOrder() != null && dto.getOrder() > order ? dto.getOrder() : order + 1);
         return slideMapper.toDtoResponse(slideRepository.save(entity));
     }
 
