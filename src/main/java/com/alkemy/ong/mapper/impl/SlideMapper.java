@@ -4,7 +4,7 @@ import com.alkemy.ong.dto.SlideDTO;
 import com.alkemy.ong.dto.SlideDTOResponse;
 import com.alkemy.ong.entity.SlideEntity;
 import com.alkemy.ong.mapper.Mapper;
-import com.alkemy.ong.service.impl.OrganizationServiceImp;
+import com.alkemy.ong.service.impl.OrganizationServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -15,7 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SlideMapper implements Mapper<SlideDTO, SlideEntity> {
 
-    private final OrganizationServiceImp organizationService;
+    private final OrganizationServiceImpl organizationService;
     private final OrganizationMapper organizationMapper;
 
     @Override

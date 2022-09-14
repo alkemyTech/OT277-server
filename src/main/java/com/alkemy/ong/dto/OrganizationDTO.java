@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.Column;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import java.sql.Timestamp;
@@ -36,4 +37,10 @@ public class OrganizationDTO {
     private String aboutUsText;
 
     private Timestamp timestamp;
+
+    private String urlFacebook;
+
+    private String urlLinkedin;
+
+    private String urlInstagram;
 }

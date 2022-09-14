@@ -52,5 +52,15 @@ public class OrganizationEntity {
     @Column(columnDefinition = "timestamp")
     private Timestamp timestamp;
 
+    @Column(name = "soft_delete")
     private boolean softDelete;
+
+    @Column(name = "url_facebook")
+    private String urlFacebook;
+
+    @Column(name = "url_linkedin")
+    private String urlLinkedin;
+
+    @Column(name = "url_instagram")
+    private String urlInstagram;
 }

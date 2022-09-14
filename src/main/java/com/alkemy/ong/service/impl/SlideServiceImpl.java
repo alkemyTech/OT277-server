@@ -21,7 +21,7 @@ public class SlideServiceImpl implements SlideService {
     private final SlideRepository slideRepository;
     private final SlideMapper slideMapper;
     private final AmazonClient amazonClient;
-    private final OrganizationServiceImp organizationService;
+    private final OrganizationServiceImpl organizationService;
 
     public SlideDTOResponse saveSlide(SlideDTO dto) {
         SlideEntity entity = slideMapper.toEntity(dto);
