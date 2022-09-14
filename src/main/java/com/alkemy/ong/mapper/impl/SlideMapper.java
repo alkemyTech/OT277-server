@@ -4,13 +4,19 @@ import com.alkemy.ong.dto.SlideDTO;
 import com.alkemy.ong.dto.SlideDTOResponse;
 import com.alkemy.ong.entity.SlideEntity;
 import com.alkemy.ong.mapper.Mapper;
+import com.alkemy.ong.service.impl.OrganizationServiceImpl;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Component
+@RequiredArgsConstructor
 public class SlideMapper implements Mapper<SlideDTO, SlideEntity> {
+
+    private final OrganizationServiceImpl organizationService;
+    private final OrganizationMapper organizationMapper;
 
     @Override
     public SlideDTO toDto(SlideEntity slideEntity) {
@@ -21,6 +27,7 @@ public class SlideMapper implements Mapper<SlideDTO, SlideEntity> {
     public SlideEntity toEntity(SlideDTO slideDTO) {
         SlideEntity entity = new SlideEntity();
         entity.setText(slideDTO.getText());
+        entity.setOrganizationId(slideDTO.getOrganization_id() != null || slideDTO.getOrganization_id().equals("") ? organizationService.getById(slideDTO.getOrganization_id()).getId() : null);
         return entity;
     }
 
@@ -34,6 +41,10 @@ public class SlideMapper implements Mapper<SlideDTO, SlideEntity> {
         dto.setImageUrl(entity.getImageUrl());
         dto.setText(entity.getText());
         dto.setOrder(entity.getSlideOrder());
+        if (entity.getOrganizationId() != null) {
+            dto.setOrganization(organizationMapper.toDto(
+                    organizationService.getById(entity.getOrganizationId())));
+        }
         return dto;
     }
 
