@@ -7,7 +7,10 @@ import com.alkemy.ong.repository.UserRepository;
 import com.alkemy.ong.service.EmailService;
 import com.alkemy.ong.service.impl.RoleServiceImpl;
 import com.alkemy.ong.service.impl.UserServiceImpl;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -15,6 +18,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -54,13 +58,26 @@ public class UserDetailsCustomService implements UserDetailsService {
     }
 
     public UserDto getMe(HttpServletRequest http) {
+        var email = extractUsername(http);
+        return userMapper.toBasicDto(userService.getByEmail(email));
+    }
+
+    public String extractUsername(HttpServletRequest http){
         String authorizationHeader = http.getHeader("Authorization");
         String email = null;
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             email = jwtUtils.extractUsername(authorizationHeader.substring(7));
         }
-        return userMapper.toBasicDto(userService.getByEmail(email));
+        return email;
     }
 
 
+    public List<String> extractRoles(HttpServletRequest http) {
+        String authorizationHeader = http.getHeader("Authorization");
+        List<String> roles = null;
+        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+            roles = jwtUtils.extractRoles(authorizationHeader.substring(7));
+        }
+        return roles;
+    }
 }

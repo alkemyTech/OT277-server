@@ -2,15 +2,21 @@ package com.alkemy.ong.service.impl;
 
 import com.alkemy.ong.dto.CommentDtoRequest;
 import com.alkemy.ong.dto.CommentDtoResponse;
+import com.alkemy.ong.exception.InvalidUserException;
 import com.alkemy.ong.exception.ParamNotFound;
 import com.alkemy.ong.mapper.impl.CommentMapper;
 import com.alkemy.ong.repository.CommentRepository;
-import com.alkemy.ong.security.service.JwtUtils;
+import com.alkemy.ong.security.service.UserDetailsCustomService;
 import com.alkemy.ong.service.CommentService;
 import com.alkemy.ong.service.NewService;
 import com.alkemy.ong.service.UserService;
+import com.alkemy.ong.utils.RoleType;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
+
+import javax.servlet.http.HttpServletRequest;
 
 @Service
 @RequiredArgsConstructor
@@ -20,7 +26,7 @@ public class CommentServiceImp  implements CommentService {
     private final NewService newService;
     private final CommentMapper commentMapper;
     private final CommentRepository commentRepository;
-    private final JwtUtils jwtUtils;
+    private final UserDetailsCustomService userDetailsCustomService;
     @Override
     public CommentDtoResponse saveComment(CommentDtoRequest comment) {
         var user = userService.getUserByID(comment.getUserId());
@@ -42,9 +48,15 @@ public class CommentServiceImp  implements CommentService {
     }
 
     @Override
-    public void deleteComment(String id) {
-        this.commentRepository.delete(commentRepository.findById(id).orElseThrow(
-                        ()-> new ParamNotFound("Comment whit id: "+id+" no found"))
-        );
+    public void deleteComment(String id, HttpServletRequest request, Authentication auth) {
+        var tokenUsername = userDetailsCustomService.extractUsername(request);
+        var comment = commentRepository.findById(id).orElseThrow(
+                ()-> new ParamNotFound("Comment whit id: "+id+" no found"));
+        if(tokenUsername.equals(comment.getUserEntity().getUsername()) ||
+                auth.getAuthorities().contains(new SimpleGrantedAuthority(RoleType.ADMIN.getFullRoleName()))){
+            commentRepository.delete(comment);
+        } else if (!tokenUsername.equals(comment.getUserEntity().getUsername())) {
+            throw new InvalidUserException("Invalid user, this user can not delete this comment");
+        }
     }
 }
