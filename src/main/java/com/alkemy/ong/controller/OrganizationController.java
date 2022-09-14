@@ -18,14 +18,12 @@ public class OrganizationController {
 
     @GetMapping("/public/{id}")
     public ResponseEntity<OrganizationDTO> publicInformation(@PathVariable String id) {
-        OrganizationDTO result = organizationService.getPublicInformation(id);
-        return ResponseEntity.status(HttpStatus.OK).body(result);
+        return ResponseEntity.status(HttpStatus.OK).body(organizationService.getPublicInformation(id));
     }
 
     @PutMapping("/public/{id}")
     public ResponseEntity<OrganizationDTO> update(@Valid @RequestBody OrganizationDTO dto, @PathVariable String id) {
-        OrganizationDTO result = organizationService.update(dto, id);
-        return ResponseEntity.status(HttpStatus.OK).body(result);
+        return ResponseEntity.status(HttpStatus.OK).body(organizationService.update(dto, id));
     }
 
     @PostMapping

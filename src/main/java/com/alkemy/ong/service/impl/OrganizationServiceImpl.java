@@ -18,7 +18,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     @Override
     public OrganizationDTO getPublicInformation(String id) {
-        return organizationMapper.toDto(getById(id));
+        return organizationMapper.toBasicDto((getById(id)));
     }
 
     @Override
