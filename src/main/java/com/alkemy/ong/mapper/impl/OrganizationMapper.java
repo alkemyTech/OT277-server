@@ -47,6 +47,9 @@ public class OrganizationMapper implements Mapper<OrganizationDTO, OrganizationE
         dto.setAddress(entity.getAddress());
         dto.setImage(entity.getImage());
         dto.setPhone(entity.getPhone());
+        dto.setUrlFacebook(entity.getUrlFacebook());
+        dto.setUrlLinkedin(entity.getUrlLinkedin());
+        dto.setUrlInstagram(entity.getUrlInstagram());
         return dto;
     }
 }

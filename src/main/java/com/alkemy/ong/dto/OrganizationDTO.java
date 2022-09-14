@@ -1,11 +1,8 @@
 package com.alkemy.ong.dto;
 
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.Setter;
-
-import javax.persistence.Column;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import java.sql.Timestamp;
@@ -15,9 +12,7 @@ import java.sql.Timestamp;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class OrganizationDTO {
 
-
     @NotBlank(message = "Name cannot be empty or null.")
-
     private String name;
 
     private String image;
