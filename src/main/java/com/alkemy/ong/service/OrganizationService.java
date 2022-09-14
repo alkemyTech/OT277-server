@@ -13,4 +13,6 @@ public interface OrganizationService {
     OrganizationDTO save(OrganizationDTO dto);
 
     void delete(String id);
+
+    void validate(String email);
 }

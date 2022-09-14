@@ -11,26 +11,26 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class OrganizationServiceImp implements OrganizationService {
+public class OrganizationServiceImpl implements OrganizationService {
 
     private final OrganizationRepository organizationRepository;
     private final OrganizationMapper organizationMapper;
 
     @Override
     public OrganizationDTO getPublicInformation(String id) {
-        return organizationMapper.toDto(organizationRepository.
-                findById(id).orElseThrow());
+        return organizationMapper.toDto(getById(id));
     }
 
     @Override
     public OrganizationDTO update(OrganizationDTO dto, String id) {
-
-        if (!organizationRepository.findById(id).isPresent()) {
-            throw new ParamNotFound("El id de organizacion es invalido");
+        String email = getById(id).getEmail();
+        if (!dto.getEmail().equals(email)){
+            validate(dto.getEmail());
         }
-        OrganizationEntity entity = this.organizationMapper.toEntity(dto);
+        OrganizationEntity entity = organizationMapper.toEntity(dto);
+        entity.setEmail(email);
         entity.setId(id);
-        return this.organizationMapper.toDtoAllAtributes(this.organizationRepository.save(entity));
+        return organizationMapper.toDto(organizationRepository.save(entity));
     }
 
     public OrganizationEntity getById(String id) {
@@ -40,7 +40,14 @@ public class OrganizationServiceImp implements OrganizationService {
 
     @Override
     public OrganizationDTO save(OrganizationDTO dto) {
+        validate(dto.getEmail());
         return organizationMapper.toDto(organizationRepository.save(organizationMapper.toEntity(dto)));
+    }
+
+    public void validate(String email) {
+        if (organizationRepository.findByEmail(email).isPresent()) {
+            throw new ParamNotFound("Organization mail already registered");
+        }
     }
 
     @Override

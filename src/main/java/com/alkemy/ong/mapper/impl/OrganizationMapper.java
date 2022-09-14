@@ -8,45 +8,45 @@ import org.springframework.stereotype.Component;
 @Component
 public class OrganizationMapper implements Mapper<OrganizationDTO, OrganizationEntity> {
     @Override
-    public OrganizationDTO toDto(OrganizationEntity organizationEntity) {
-        var dto = new OrganizationDTO();
-        dto.setName(organizationEntity.getName());
-        dto.setAddress(organizationEntity.getAddress());
-        dto.setImage(organizationEntity.getImage());
-        dto.setPhone(organizationEntity.getPhone());
+    public OrganizationDTO toDto(OrganizationEntity entity) {
+        OrganizationDTO dto = new OrganizationDTO();
+        dto.setName(entity.getName());
+        dto.setAddress(entity.getAddress());
+        dto.setImage(entity.getImage());
+        dto.setPhone(entity.getPhone());
+        dto.setEmail(entity.getEmail());
+        dto.setTimestamp(entity.getTimestamp());
+        dto.setWelcomeText(entity.getWelcomeText());
+        dto.setAboutUsText(entity.getAboutUsText());
+        dto.setUrlFacebook(entity.getUrlFacebook());
+        dto.setUrlLinkedin(entity.getUrlLinkedin());
+        dto.setUrlInstagram(entity.getUrlInstagram());
         return dto;
     }
-
-
-    public OrganizationDTO toDtoAllAtributes(OrganizationEntity organizationEntity) {
-        var dto = new OrganizationDTO();
-        dto.setName(organizationEntity.getName());
-        dto.setAddress(organizationEntity.getAddress());
-        dto.setImage(organizationEntity.getImage());
-        dto.setPhone(organizationEntity.getPhone());
-        dto.setEmail(organizationEntity.getEmail());
-        dto.setTimestamp(organizationEntity.getTimestamp());
-        dto.setWelcomeText(organizationEntity.getWelcomeText());
-        dto.setAboutUsText(organizationEntity.getAboutUsText());
-        return dto;
-    }
-
 
     @Override
-    public OrganizationEntity toEntity(OrganizationDTO organizationDTO) {
+    public OrganizationEntity toEntity(OrganizationDTO dto) {
         OrganizationEntity entity = new OrganizationEntity();
-        entity.setName(organizationDTO.getName());
-        entity.setAddress(organizationDTO.getAddress());
-        entity.setImage(organizationDTO.getImage());
-        entity.setPhone(organizationDTO.getPhone());
-        entity.setAboutUsText(organizationDTO.getAboutUsText());
-        entity.setEmail(organizationDTO.getEmail());
-        entity.setWelcomeText(organizationDTO.getWelcomeText());
+        entity.setName(dto.getName());
+        entity.setAddress(dto.getAddress());
+        entity.setImage(dto.getImage());
+        entity.setPhone(dto.getPhone());
+        entity.setAboutUsText(dto.getAboutUsText());
+        entity.setEmail(dto.getEmail());
+        entity.setWelcomeText(dto.getWelcomeText());
+        entity.setUrlFacebook(dto.getUrlFacebook());
+        entity.setUrlLinkedin(dto.getUrlLinkedin());
+        entity.setUrlInstagram(dto.getUrlInstagram());
         return entity;
     }
 
     @Override
-    public OrganizationDTO toBasicDto(OrganizationEntity organizationEntity) {
-        return null;
+    public OrganizationDTO toBasicDto(OrganizationEntity entity) {
+        OrganizationDTO dto = new OrganizationDTO();
+        dto.setName(entity.getName());
+        dto.setAddress(entity.getAddress());
+        dto.setImage(entity.getImage());
+        dto.setPhone(entity.getPhone());
+        return dto;
     }
 }
