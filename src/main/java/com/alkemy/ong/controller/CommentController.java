@@ -27,6 +27,12 @@ public class CommentController {
     public ResponseEntity<CommentDtoResponse> updateComment(@Valid @RequestBody CommentDtoRequest comment,
                                                             @PathVariable String id){
         var updateComment = commentService.updateComment(comment, id);
-        return ResponseEntity.status(HttpStatus.CREATED).body(updateComment);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(updateComment);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteComment(@PathVariable String id){
+        commentService.deleteComment(id);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 }

@@ -5,8 +5,7 @@ import com.alkemy.ong.dto.CommentDtoResponse;
 import com.alkemy.ong.exception.ParamNotFound;
 import com.alkemy.ong.mapper.impl.CommentMapper;
 import com.alkemy.ong.repository.CommentRepository;
-import com.alkemy.ong.repository.NewRepository;
-import com.alkemy.ong.repository.UserRepository;
+import com.alkemy.ong.security.service.JwtUtils;
 import com.alkemy.ong.service.CommentService;
 import com.alkemy.ong.service.NewService;
 import com.alkemy.ong.service.UserService;
@@ -21,6 +20,7 @@ public class CommentServiceImp  implements CommentService {
     private final NewService newService;
     private final CommentMapper commentMapper;
     private final CommentRepository commentRepository;
+    private final JwtUtils jwtUtils;
     @Override
     public CommentDtoResponse saveComment(CommentDtoRequest comment) {
         var user = userService.getUserByID(comment.getUserId());
@@ -39,5 +39,12 @@ public class CommentServiceImp  implements CommentService {
         );
         commentEntity.setBody(comment.getBody());
         return commentMapper.toDto(commentRepository.save(commentEntity));
+    }
+
+    @Override
+    public void deleteComment(String id) {
+        this.commentRepository.delete(commentRepository.findById(id).orElseThrow(
+                        ()-> new ParamNotFound("Comment whit id: "+id+" no found"))
+        );
     }
 }

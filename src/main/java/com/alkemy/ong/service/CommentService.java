@@ -7,4 +7,6 @@ public interface CommentService {
     CommentDtoResponse saveComment(CommentDtoRequest comment);
 
     CommentDtoResponse updateComment(CommentDtoRequest comment, String commentId);
+
+    void deleteComment(String id);
 }
