@@ -2,7 +2,7 @@ package com.alkemy.ong.service;
 
 import com.alkemy.ong.dto.NewDTO;
 import com.alkemy.ong.dto.NewDtoResponse;
-import com.alkemy.ong.dto.NewsResponse;
+import com.alkemy.ong.dto.PageableResponse;
 import com.alkemy.ong.entity.NewEntity;
 
 public interface NewService {
@@ -17,5 +17,5 @@ public interface NewService {
 
     NewEntity getNewId(String newId);
 
-    NewsResponse getAllPosts(int pageNumber, int pageSize, String sortBy);
+    PageableResponse getAllPosts(int pageNumber, int pageSize, String sortBy);
 }

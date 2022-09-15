@@ -1,6 +1,7 @@
 package com.alkemy.ong.controller;
 
 import com.alkemy.ong.dto.MemberDTO;
+import com.alkemy.ong.dto.PageableResponse;
 import com.alkemy.ong.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,8 +19,11 @@ public class MemberController {
     private final MemberService memberService;
 
     @GetMapping
-    public ResponseEntity<List<MemberDTO>> getAllMembers(){
-        var members = memberService.getAllMembers();
+    public ResponseEntity<PageableResponse> getAllMembers(
+            @RequestParam(value = "page", defaultValue = "0", required = false) int page,
+            @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize,
+            @RequestParam(value = "sortBy", defaultValue = "id", required = false) String sortBy){
+        var members = memberService.getAllMembers(page, pageSize, sortBy);
         return ResponseEntity.status(HttpStatus.OK).body(members);
     }
 

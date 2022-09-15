@@ -2,7 +2,6 @@ package com.alkemy.ong.controller;
 
 import com.alkemy.ong.dto.NewDTO;
 import com.alkemy.ong.dto.NewDtoResponse;
-import com.alkemy.ong.dto.NewsResponse;
 import com.alkemy.ong.service.NewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -44,12 +43,12 @@ public class NewController {
     }
 
     @GetMapping
-    public ResponseEntity<NewsResponse> getAllPosts(
-            @RequestParam(value = "pageNumber", defaultValue = "0", required = false) int pageNumber,
+    public ResponseEntity getAllPosts(
+            @RequestParam(value = "page", defaultValue = "0", required = false) int page,
             @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize,
             @RequestParam(value = "sortBy", defaultValue = "id", required = false) String sortBy){
         return ResponseEntity.status(HttpStatus.OK).body(
-                newService.getAllPosts(pageNumber, pageSize, sortBy)
+                newService.getAllPosts(page, pageSize, sortBy)
         );
     }
 }
