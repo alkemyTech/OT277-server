@@ -1,12 +1,13 @@
 package com.alkemy.ong.service;
 
 import com.alkemy.ong.dto.MemberDTO;
+import com.alkemy.ong.dto.PageableResponse;
 
 import java.util.List;
 
 public interface MemberService {
 
-    List<MemberDTO> getAllMembers();
+    PageableResponse getAllMembers(int page, int pageSize, String sortBy);
 
     MemberDTO saveMember(MemberDTO memberDTO);
 

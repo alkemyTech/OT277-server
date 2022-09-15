@@ -2,21 +2,20 @@ package com.alkemy.ong.service.impl;
 
 import com.alkemy.ong.dto.NewDTO;
 import com.alkemy.ong.dto.NewDtoResponse;
-import com.alkemy.ong.dto.NewsResponse;
-import com.alkemy.ong.entity.CategoryEntity;
+import com.alkemy.ong.dto.PageableResponse;
 import com.alkemy.ong.entity.NewEntity;
 import com.alkemy.ong.exception.ParamNotFound;
 import com.alkemy.ong.mapper.impl.NewMapper;
 import com.alkemy.ong.repository.CategoryRepository;
 import com.alkemy.ong.repository.NewRepository;
 import com.alkemy.ong.service.NewService;
+import com.alkemy.ong.utils.PageableUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -27,7 +26,7 @@ public class NewServiceImp implements NewService {
     private final NewRepository newRepository;
     private final NewMapper newMapper;
 
-    private final CategoryRepository categoryRepository;
+    private final PageableUtils pageableUtils;
     @Override
     public NewDtoResponse saveNews(NewDTO news) {
         NewEntity newEntity = newRepository.save(newMapper.toEntity(news));
@@ -62,29 +61,13 @@ public class NewServiceImp implements NewService {
     }
 
     @Override
-    public NewsResponse getAllPosts(int pageNumber, int pageSize, String sortBy) {
+    public PageableResponse getAllPosts(int pageNumber, int pageSize, String sortBy) {
         Pageable p = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy));
         var news = newRepository.findAll(p);
         var allNews = news.getContent();
         var newDTO =allNews.stream().map(newMapper::toNewDtoResponse).collect(Collectors.toList());
-        NewsResponse response = new NewsResponse();
-        if(news.isLast()){
-            response.setNextPage(null);
-        }else {
-            response.setNextPage("?page="+(pageNumber+1)+"&size="+(pageSize));
-        }
-        if (news.isFirst()){
-            response.setPreviousPage(null);
-        }else {
-            response.setPreviousPage("?page="+(pageNumber == 0 ? pageNumber : pageNumber-1)+"&size="+(pageSize));
-        }
-        response.setContent(newDTO);
-        response.setPageNumber(news.getNumber());
-        response.setPageSize(news.getSize());
-        response.setTotalElements(news.getTotalElements());
-        response.setTotalPages(news.getTotalPages());
-        response.setLastPage(news.isLast());
-        return response;
+        PageableResponse response = new PageableResponse();
+        return pageableUtils.pageableUtils(news, newDTO, response, pageNumber, pageSize);
     }
 
 

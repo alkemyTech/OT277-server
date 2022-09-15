@@ -9,9 +9,9 @@ import java.util.List;
 @NoArgsConstructor
 @Setter
 @Getter
-public class NewsResponse {
+public class PageableResponse {
 
-    private List<NewDtoResponse> content;
+    private List<?> content;
     private int pageNumber;
     private int pageSize;
     private long totalElements;

@@ -1,11 +1,17 @@
 package com.alkemy.ong.service.impl;
 
 import com.alkemy.ong.dto.MemberDTO;
+import com.alkemy.ong.dto.NewDtoResponse;
+import com.alkemy.ong.dto.PageableResponse;
 import com.alkemy.ong.exception.ParamNotFound;
 import com.alkemy.ong.mapper.impl.MemberMapper;
 import com.alkemy.ong.repository.MemberRepository;
 import com.alkemy.ong.service.MemberService;
+import com.alkemy.ong.utils.PageableUtils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,10 +23,15 @@ public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
     private final MemberMapper memberMapper;
+    private final PageableUtils pageableUtils;
     @Override
-    public List<MemberDTO> getAllMembers() {
-        var members = memberRepository.findAll();
-        return members.stream().map(memberMapper::toDto).collect(Collectors.toList());
+    public PageableResponse getAllMembers(int page, int pageSize, String sortBy) {
+        Pageable p = PageRequest.of(page, pageSize, Sort.by(sortBy));
+        var member = memberRepository.findAll(p);
+        var allMembers = member.getContent();
+        var memberDTO =allMembers.stream().map(memberMapper::toDto).collect(Collectors.toList());
+        PageableResponse response = new PageableResponse();
+        return pageableUtils.pageableUtils(member, memberDTO, response, page, pageSize);
     }
 
     @Override
