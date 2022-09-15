@@ -1,8 +1,8 @@
 package com.alkemy.ong.controller;
 
-import com.alkemy.ong.dto.CategoryDTO;
 import com.alkemy.ong.dto.NewDTO;
 import com.alkemy.ong.dto.NewDtoResponse;
+import com.alkemy.ong.dto.NewsResponse;
 import com.alkemy.ong.service.NewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -41,5 +41,15 @@ public class NewController {
     public ResponseEntity<NewDtoResponse> updateNew(@PathVariable String id, @Valid @RequestBody NewDTO newDto){
         NewDtoResponse result = newService.update(id,newDto);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(result);
+    }
+
+    @GetMapping
+    public ResponseEntity<NewsResponse> getAllPosts(
+            @RequestParam(value = "pageNumber", defaultValue = "0", required = false) int pageNumber,
+            @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize,
+            @RequestParam(value = "sortBy", defaultValue = "id", required = false) String sortBy){
+        return ResponseEntity.status(HttpStatus.OK).body(
+                newService.getAllPosts(pageNumber, pageSize, sortBy)
+        );
     }
 }
