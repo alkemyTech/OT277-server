@@ -1,6 +1,7 @@
 package com.alkemy.ong.controller;
 
 import com.alkemy.ong.dto.ErrorDTO;
+import com.alkemy.ong.exception.InvalidUserException;
 import com.alkemy.ong.exception.ParamNotFound;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -25,16 +26,22 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return handleExceptionInternal(ex,error,new HttpHeaders(),HttpStatus.BAD_REQUEST,request);
     }
 
+    @ExceptionHandler(value = {InvalidUserException.class})
+    protected ResponseEntity<Object> handleInvalidRoleException(RuntimeException ex, WebRequest request){
+        Map<String,String> errors = new HashMap<>();
+        errors.put("Access denied: ", ex.getMessage());
+        ErrorDTO error = new ErrorDTO(HttpStatus.FORBIDDEN, errors);
+        return handleExceptionInternal(ex, error, new HttpHeaders(), HttpStatus.FORBIDDEN, request);
+    }
 
     @Override
     public ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request){
-        Map<String,String> errors = new HashMap<String,String>();
-        ex.getBindingResult().getAllErrors().forEach((error) -> {
+        Map<String,String> errors = new HashMap<>();
+        ex.getBindingResult().getAllErrors().forEach(error -> {
             String fieldName = ((FieldError) error).getField();
             String message = error.getDefaultMessage();
-
             errors.put(fieldName,message);
-;        });
+        });
         ErrorDTO error = new ErrorDTO(HttpStatus.BAD_REQUEST,errors);
         return handleExceptionInternal(ex,error,new HttpHeaders(),HttpStatus.BAD_REQUEST,request);
     }

@@ -6,8 +6,11 @@ import com.alkemy.ong.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 @RestController
@@ -27,6 +30,12 @@ public class CommentController {
     public ResponseEntity<CommentDtoResponse> updateComment(@Valid @RequestBody CommentDtoRequest comment,
                                                             @PathVariable String id){
         var updateComment = commentService.updateComment(comment, id);
-        return ResponseEntity.status(HttpStatus.CREATED).body(updateComment);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(updateComment);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteComment(@PathVariable String id, HttpServletRequest request, Authentication auth){
+        commentService.deleteComment(id,request, auth);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 }
