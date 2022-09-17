@@ -2,6 +2,7 @@ package com.alkemy.ong.service.impl;
 
 import com.alkemy.ong.dto.CommentDtoRequest;
 import com.alkemy.ong.dto.CommentDtoResponse;
+import com.alkemy.ong.entity.CommentEntity;
 import com.alkemy.ong.exception.InvalidUserException;
 import com.alkemy.ong.exception.ParamNotFound;
 import com.alkemy.ong.mapper.impl.CommentMapper;
@@ -17,6 +18,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -58,5 +60,12 @@ public class CommentServiceImp  implements CommentService {
         } else if (!tokenUsername.equals(comment.getUserEntity().getUsername())) {
             throw new InvalidUserException("Invalid user, this user can not delete this comment");
         }
+    }
+
+    public List<CommentDtoResponse> getComments() {
+
+        List<CommentEntity> entities = (List<CommentEntity>) commentRepository.findAll();
+        List<CommentDtoResponse> result = commentMapper.commentEntityList2DTOList(entities);
+        return result;
     }
 }

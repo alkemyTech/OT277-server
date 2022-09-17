@@ -5,6 +5,7 @@ import com.alkemy.ong.dto.CommentDtoResponse;
 import org.springframework.security.core.Authentication;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 public interface CommentService {
     CommentDtoResponse saveComment(CommentDtoRequest comment);
@@ -12,4 +13,6 @@ public interface CommentService {
     CommentDtoResponse updateComment(CommentDtoRequest comment, String commentId);
 
     void deleteComment(String id, HttpServletRequest request, Authentication auth);
+
+    List<CommentDtoResponse> getComments();
 }
