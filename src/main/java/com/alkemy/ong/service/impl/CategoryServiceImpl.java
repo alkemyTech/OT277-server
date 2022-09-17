@@ -1,35 +1,38 @@
 package com.alkemy.ong.service.impl;
 
 import com.alkemy.ong.dto.CategoryDTO;
-import com.alkemy.ong.dto.OrganizationDTO;
+import com.alkemy.ong.dto.PageableResponse;
 import com.alkemy.ong.entity.CategoryEntity;
-import com.alkemy.ong.entity.OrganizationEntity;
 import com.alkemy.ong.exception.ParamNotFound;
 import com.alkemy.ong.mapper.impl.CategoryMapper;
 import com.alkemy.ong.repository.CategoryRepository;
 import com.alkemy.ong.service.CategoryService;
+import com.alkemy.ong.utils.PageableUtils;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class CategoryServiceImpl implements CategoryService {
 
-    @Autowired
     private final CategoryRepository categoryRepository;
-
-    @Autowired
     private final CategoryMapper categoryMapper;
+    private final PageableUtils pageableUtils;
 
-    public List<String> getCategories() {
+    public PageableResponse getCategories(int page, int pageSize, String sortBy) {
+        Pageable p = PageRequest.of(page, pageSize, Sort.by(sortBy));
 
-        List<CategoryEntity> entities = (List<CategoryEntity>) categoryRepository.findAll();
-        List<String> result = categoryMapper.categoryEntitySet2DTOSet(entities);
-        return result;
+        var category = categoryRepository.findAll(p);
+        var allCategories = category.getContent();
+        var categoryDTO =allCategories.stream().map(categoryMapper::toDto).collect(Collectors.toList());
+        PageableResponse response = new PageableResponse();
+        return pageableUtils.pageableUtils(category, categoryDTO, response, page, pageSize);
     }
 
 

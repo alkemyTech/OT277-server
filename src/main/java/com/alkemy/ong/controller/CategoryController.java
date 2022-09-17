@@ -1,7 +1,7 @@
 package com.alkemy.ong.controller;
 
 import com.alkemy.ong.dto.CategoryDTO;
-import com.alkemy.ong.dto.OrganizationDTO;
+import com.alkemy.ong.dto.PageableResponse;
 import com.alkemy.ong.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -21,10 +21,12 @@ public class CategoryController {
     // Solo debe permitir al administrador ejecutar estas acciones!
 
     @GetMapping("/categories")
-    public ResponseEntity<List<String>> getCategories(){
-        List<String> result = categoryService.getCategories();
-
-        return ResponseEntity.status(HttpStatus.OK).body(result);
+    public ResponseEntity<PageableResponse> getAllCategories(
+            @RequestParam(value = "page", defaultValue = "0", required = false) int page,
+            @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize,
+            @RequestParam(value = "sortBy", defaultValue = "id", required = false) String sortBy){
+        var categories = categoryService.getCategories(page, pageSize, sortBy);
+        return ResponseEntity.status(HttpStatus.OK).body(categories);
     }
 
     @PostMapping("/categories")
