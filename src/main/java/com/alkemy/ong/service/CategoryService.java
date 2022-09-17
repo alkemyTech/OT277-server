@@ -2,13 +2,14 @@ package com.alkemy.ong.service;
 
 import com.alkemy.ong.dto.CategoryDTO;
 import com.alkemy.ong.dto.OrganizationDTO;
+import com.alkemy.ong.dto.PageableResponse;
 
 
 import java.util.List;
 
 public interface CategoryService {
 
-    List<String> getCategories();
+    PageableResponse getCategories(int page, int pageSize, String sortBy);
 
 
     CategoryDTO saveCategory(CategoryDTO dto);
