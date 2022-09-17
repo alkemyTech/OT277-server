@@ -12,6 +12,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.List;
 
 @Entity
 @Getter
@@ -63,4 +64,7 @@ public class OrganizationEntity {
 
     @Column(name = "url_instagram")
     private String urlInstagram;
+
+    @OneToMany(mappedBy = "organizations")
+    private List<SlideEntity> slides;
 }
