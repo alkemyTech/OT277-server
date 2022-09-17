@@ -6,8 +6,11 @@ import com.alkemy.ong.exception.ParamNotFound;
 import com.alkemy.ong.mapper.impl.OrganizationMapper;
 import com.alkemy.ong.repository.OrganizationRepository;
 import com.alkemy.ong.service.OrganizationService;
+import com.alkemy.ong.service.SlideService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -15,6 +18,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     private final OrganizationRepository organizationRepository;
     private final OrganizationMapper organizationMapper;
+    private final SlideService slideService;
 
     @Override
     public OrganizationDTO getPublicInformation(String id) {
@@ -34,8 +38,15 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     public OrganizationEntity getById(String id) {
-        return organizationRepository.findById(id).orElseThrow(
-                () -> new ParamNotFound("Organization not found or disabled"));
+        Optional <OrganizationEntity> result = organizationRepository.findById(id);
+            if (result.isPresent()){
+                OrganizationEntity entity = result.get();
+                entity.setSlides(slideService.slidesForOrg(id));
+                organizationRepository.save(entity);
+                return entity;
+            } else {
+               throw  new ParamNotFound("Organization not found or disabled");
+            }
     }
 
     @Override

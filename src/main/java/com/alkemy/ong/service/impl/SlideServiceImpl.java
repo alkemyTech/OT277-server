@@ -11,6 +11,7 @@ import com.alkemy.ong.service.SlideService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -64,6 +65,18 @@ public class SlideServiceImpl implements SlideService {
         return slideMapper.toDtoResponseList(slideRepository.findAll());
     }
 
+    @Override
+    public List<SlideEntity> slidesForOrg(String organization_id) {
+        List <SlideEntity>  Slides = new ArrayList<>();
+        List <SlideEntity> result = new ArrayList<>();
+        Slides = slideRepository.findAll();
+        for ( SlideEntity slide : Slides) {
+            if(slide.getOrganizationId() == organization_id) {
+                result.add(slide);
+            }
+        }
+        return result;
+    }
 
     public String generateUrlAmazon(String imageB64) {
         return amazonClient.uploadFile(imageB64, UUID.randomUUID().toString());

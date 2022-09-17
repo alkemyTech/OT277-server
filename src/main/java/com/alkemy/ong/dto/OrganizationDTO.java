@@ -1,11 +1,13 @@
 package com.alkemy.ong.dto;
 
+import com.alkemy.ong.entity.SlideEntity;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.Setter;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import java.sql.Timestamp;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -38,4 +40,6 @@ public class OrganizationDTO {
     private String urlLinkedin;
 
     private String urlInstagram;
+
+    private Set<SlideEntity> slides;
 }

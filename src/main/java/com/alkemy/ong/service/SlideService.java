@@ -12,6 +12,8 @@ public interface SlideService {
 
     List<SlideDTOResponse> getSlides();
 
+    List<SlideEntity> slidesForOrg(String organizaion_id);
+
     SlideDTOResponse getByIdResponse(String id);
 
     SlideEntity getById(String id);
