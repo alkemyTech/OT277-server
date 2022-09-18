@@ -8,6 +8,7 @@ import com.alkemy.ong.repository.OrganizationRepository;
 import com.alkemy.ong.service.OrganizationService;
 import com.alkemy.ong.service.SlideService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -18,7 +19,8 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     private final OrganizationRepository organizationRepository;
     private final OrganizationMapper organizationMapper;
-    private final SlideService slideService;
+    @Autowired
+    private SlideService slideService;
 
     @Override
     public OrganizationDTO getPublicInformation(String id) {

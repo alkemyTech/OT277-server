@@ -6,17 +6,22 @@ import com.alkemy.ong.entity.SlideEntity;
 import com.alkemy.ong.mapper.Mapper;
 import com.alkemy.ong.service.impl.OrganizationServiceImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Component
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 public class SlideMapper implements Mapper<SlideDTO, SlideEntity> {
 
-    private final OrganizationServiceImpl organizationService;
-    private final OrganizationMapper organizationMapper;
+    @Autowired
+    private  OrganizationServiceImpl organizationService;
+
+    @Autowired
+    private  OrganizationMapper organizationMapper;
 
     @Override
     public SlideDTO toDto(SlideEntity slideEntity) {

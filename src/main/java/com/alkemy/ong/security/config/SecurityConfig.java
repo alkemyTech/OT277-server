@@ -51,6 +51,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new CustomAuthenticationEntryPoint();
     }
 
+    private static final String[] SWAGGER_ENDPOINTS = {
+            "/api/docs",
+            "/v2/api-docs",
+            "/swagger-ui/**",
+            "/swagger-resources",
+            "/swagger-resources/**",
+            "/configuration/ui",
+            "/configuration/security",
+            "/swagger-ui.html",
+            "/webjars/**"
+    };
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf()
@@ -64,6 +76,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .antMatchers(HttpMethod.GET, "/auth/me", "/users/**")
                 .hasAnyRole(RoleType.ADMIN.name(), RoleType.USER.name())
+
+                .antMatchers(SWAGGER_ENDPOINTS).permitAll()
 
                 .antMatchers(HttpMethod.GET, "/organization/public/**")
                 .hasRole(RoleType.USER.name())
