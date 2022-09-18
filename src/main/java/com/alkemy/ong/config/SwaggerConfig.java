@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.service.ApiInfo;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger.web.OperationsSorter;
@@ -18,6 +19,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import javax.servlet.http.HttpServletResponse;
 import java.security.Principal;
+import java.util.ArrayList;
 
 @Configuration
 @EnableSwagger2
@@ -33,7 +35,8 @@ public class SwaggerConfig {
                 .ignoredParameterTypes(Principal.class, Pageable.class,
                         UriComponentsBuilder.class,
                         HttpServletResponse.class,
-                        Authentication.class);
+                        Authentication.class)
+                .apiInfo(apiInfo());
     }
 
     @Bean
@@ -43,6 +46,17 @@ public class SwaggerConfig {
                 .operationsSorter(OperationsSorter.METHOD)
                 .tagsSorter(TagsSorter.ALPHA)
                 .build();
+    }
+
+    private ApiInfo apiInfo() {
+        return new ApiInfo("Somos Más ONG",
+                "Alkemy Project",
+                "1.0",
+                "termsOfService",
+                ApiInfo.DEFAULT_CONTACT,
+                "Apache 2.0",
+                "http://www.apache.org/licenses/LICENSE-2.0",
+                new ArrayList<>());
     }
 
 }
