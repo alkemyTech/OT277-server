@@ -9,8 +9,8 @@ import javax.validation.constraints.Size;
 @Getter
 @Setter
 public class AuthenticationRequest {
-    @Email
+    @Email(message = "Email not valid")
     private String email;
-    @Size(min = 8)
+    @Size(min = 8, message = "Password not valid")
     private String password;
 }

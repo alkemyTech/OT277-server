@@ -1,11 +1,14 @@
 package com.alkemy.ong.security.controller;
 
 import com.alkemy.ong.dto.UserDto;
+import com.alkemy.ong.exception.ErrorResponse;
 import com.alkemy.ong.security.dto.AuthenticationRequest;
+import com.alkemy.ong.security.dto.AuthenticationResponse;
 import com.alkemy.ong.security.service.JwtUtils;
 import com.alkemy.ong.security.service.UserDetailsCustomService;
-import com.alkemy.ong.security.dto.AuthenticationResponse;
-import com.alkemy.ong.service.EmailService;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,17 +42,29 @@ public class UserAuthController {
         }
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
-    @PostMapping("/login")
-    public ResponseEntity<Object> singIn(@Valid @RequestBody AuthenticationRequest authenticationRequest)
-            throws Exception{
+
+    @PostMapping(value = "/login",
+            produces = {"application/json"},
+            consumes = {"application/json"})
+    @ApiOperation(value = "Log a new user to the API",
+            produces = "application/json",
+            consumes = "application/json")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK - User authenticated",
+                    response = AuthenticationResponse.class),
+            @ApiResponse(code = 400, message = "Email not valid " +
+                    "\n Password not valid",
+                    response = ErrorResponse.class),
+    })
+    public ResponseEntity<Object> singIn(@Valid @RequestBody AuthenticationRequest authenticationRequest) {
         UserDetails userDetails;
         try {
             Authentication auth = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(authenticationRequest.getEmail(),
                             authenticationRequest.getPassword(), null)
             );
-            userDetails = (UserDetails)auth.getPrincipal();
-        }catch (BadCredentialsException e){
+            userDetails = (UserDetails) auth.getPrincipal();
+        } catch (BadCredentialsException e) {
             return ResponseEntity.ok("false");
         }
         final String jwt = jwtTokenUtil.generateToken(userDetails);
@@ -57,7 +72,7 @@ public class UserAuthController {
     }
 
     @GetMapping("/me")
-    public ResponseEntity<UserDto> getMe(HttpServletRequest request){
+    public ResponseEntity<UserDto> getMe(HttpServletRequest request) {
         return ResponseEntity.status(HttpStatus.OK).body(userDetailsCustomService.getMe(request));
     }
 
