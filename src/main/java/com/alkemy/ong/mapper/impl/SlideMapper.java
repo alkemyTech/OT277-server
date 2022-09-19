@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-//@RequiredArgsConstructor
 public class SlideMapper implements Mapper<SlideDTO, SlideEntity> {
 
     @Autowired
