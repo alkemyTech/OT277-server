@@ -1,5 +1,7 @@
 package com.alkemy.ong.exception;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,17 +13,21 @@ import java.util.List;
 @Setter
 public class ErrorResponse {
 
+    @ApiModelProperty(example = "40# or 500", position = 1)
     private int status;
+    @ApiModelProperty(example = " {\n" +
+            "errorField: description" +
+            "\n}", position = 2)
+    private List<String> errors;
 
-    private List<String> messages;
-
+    @JsonIgnore
     private Timestamp timestamp;
 
     public ErrorResponse() {
-        this.messages = new ArrayList<>();
+        this.errors = new ArrayList<>();
     }
 
     public void add(String message) {
-        this.messages.add(message);
+        this.errors.add(message);
     }
 }
