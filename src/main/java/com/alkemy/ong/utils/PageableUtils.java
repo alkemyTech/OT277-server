@@ -9,7 +9,7 @@ import java.util.List;
 @Component
 public class PageableUtils {
 
-    public PageableResponse pageableUtils(Page<?> member, List<?> memberDTO, PageableResponse response, int page, int pageSize) {
+    public PageableResponse pageableUtils(Page<?> member, List<?> dto, PageableResponse response, int page, int pageSize) {
         if(member.isLast()){
             response.setNextPage(null);
         }else {
@@ -20,7 +20,7 @@ public class PageableUtils {
         }else {
             response.setPreviousPage("?page="+(page == 0 ? page : page-1)+"&size="+(pageSize));
         }
-        response.setContent(memberDTO);
+        response.setContent(dto);
         response.setPageNumber(member.getNumber());
         response.setPageSize(member.getSize());
         response.setTotalElements(member.getTotalElements());

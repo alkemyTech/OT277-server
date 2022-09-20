@@ -19,11 +19,10 @@ import java.sql.Timestamp;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@SQLDelete(sql = "UPDATE testimonials SET delete = true WHERE id = ?")
-@Where(clause = "delete = false")
+@SQLDelete(sql = "UPDATE testimonials SET soft_delete = true WHERE id = ?")
+@Where(clause = "soft_delete = false")
 @Table(name = "testimonials")
 @EntityListeners(AuditingEntityListener.class)
-
 public class TestimonialEntity {
     @Id
     @GeneratedValue(generator = "uuid")
