@@ -6,6 +6,7 @@ import com.alkemy.ong.security.dto.AuthenticationRequest;
 import com.alkemy.ong.security.dto.AuthenticationResponse;
 import com.alkemy.ong.security.service.JwtUtils;
 import com.alkemy.ong.security.service.UserDetailsCustomService;
+import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -32,21 +33,27 @@ public class UserAuthController {
     private final JwtUtils jwtTokenUtil;
 
 
-    @PostMapping("/register")
+    @PostMapping(value = "/register", produces = {"application/json"},
+            consumes = {"application/json"})
+    @ResponseStatus(HttpStatus.CREATED)
+    @ApiOperation(value = "Register an user and get the Bearer token",
+            produces = "application/json",
+            consumes = "application/json")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "OK - User register successfully",
+                    response = UserDto.class),
+            @ApiResponse(code = 403, message = "PERMISSION_DENIED - Invalid mail o password",
+                    response = ErrorResponse.class),
+            @ApiResponse(code = 400, message = "INVALID_ARGUMENT - Arguments cannot be null. ",
+                    response = ErrorResponse.class)})
     public ResponseEntity<UserDto> register(@Valid @RequestBody UserDto userDto) {
-        UserDto response;
-        try {
-            response = userDetailsCustomService.register(userDto);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        return ResponseEntity.status(HttpStatus.CREATED).body(userDetailsCustomService.register(userDto));
     }
 
     @PostMapping(value = "/login",
             produces = {"application/json"},
             consumes = {"application/json"})
-    @ApiOperation(value = "Log a new user to the API",
+    @ApiOperation(value = "Login an user and get the Bearer token",
             produces = "application/json",
             consumes = "application/json")
     @ApiResponses(value = {
@@ -54,8 +61,7 @@ public class UserAuthController {
                     response = AuthenticationResponse.class),
             @ApiResponse(code = 400, message = "Email not valid " +
                     "\n Password not valid",
-                    response = ErrorResponse.class),
-    })
+                    response = ErrorResponse.class),})
     public ResponseEntity<Object> singIn(@Valid @RequestBody AuthenticationRequest authenticationRequest) {
         UserDetails userDetails;
         try {
@@ -71,7 +77,21 @@ public class UserAuthController {
         return ResponseEntity.ok(new AuthenticationResponse(userDetails.getUsername(), jwt));
     }
 
-    @GetMapping("/me")
+    @GetMapping(value = "/me", produces = {"application/json"})
+    @ApiImplicitParam(name = "Authorization",
+            value = "Access Token",
+            required = true,
+            paramType = "header",
+            dataTypeClass = String.class,
+            example = "Bearer access_token")
+    @ApiOperation(value = "Get my user details", produces = "application/json")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK - User Details",
+                    response = UserDto.class),
+            @ApiResponse(code = 403, message = "PERMISSION_DENIED - Forbidden.",
+                    response = ErrorResponse.class),
+            @ApiResponse(code = 404, message = "NOT_FOUND - User not found",
+                    response = ErrorResponse.class)})
     public ResponseEntity<UserDto> getMe(HttpServletRequest request) {
         return ResponseEntity.status(HttpStatus.OK).body(userDetailsCustomService.getMe(request));
     }
