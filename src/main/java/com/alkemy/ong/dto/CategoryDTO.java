@@ -1,5 +1,7 @@
 package com.alkemy.ong.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,6 +11,8 @@ import java.sql.Timestamp;
 
 @Getter
 @Setter
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@ApiModel
 public class CategoryDTO {
 
     @ApiModelProperty(example = "Tech", position = 1)
