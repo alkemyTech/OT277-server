@@ -13,5 +13,5 @@ public interface TestimonialService {
 
     PageableResponse getAll(int pageNumber, int pageSize, String sortBy);
 
-    void delete(String id);
+    String delete(String id);
 }

@@ -62,8 +62,8 @@ public class TestimonialController {
             paramType = "header",
             dataTypeClass = String.class,
             example = "Bearer access_token")
-    public ResponseEntity<TestimonialDTO> update(@Valid @RequestBody TestimonialDTO dto, @PathVariable String testId) {
-        TestimonialDTO response = testimonialService.update(dto, testId);
+    public ResponseEntity<TestimonialDTO> update(@Valid @RequestBody TestimonialDTO dto, @PathVariable String id) {
+        TestimonialDTO response = testimonialService.update(dto, id);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
@@ -104,8 +104,7 @@ public class TestimonialController {
             paramType = "header",
             dataTypeClass = String.class,
             example = "Bearer access_token")
-    public ResponseEntity<Void> delete(@PathVariable String id) {
-        testimonialService.delete(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    public ResponseEntity<String> delete(@PathVariable String id) {
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(testimonialService.delete(id));
     }
 }

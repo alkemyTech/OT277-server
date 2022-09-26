@@ -42,6 +42,7 @@ public class SlideMapper implements Mapper<SlideDTO, SlideEntity> {
 
     public SlideDTOResponse toDtoResponse(SlideEntity entity) {
         SlideDTOResponse dto = new SlideDTOResponse();
+        dto.setId(entity.getId());
         dto.setImageUrl(entity.getImageUrl());
         dto.setText(entity.getText());
         dto.setOrder(entity.getSlideOrder());

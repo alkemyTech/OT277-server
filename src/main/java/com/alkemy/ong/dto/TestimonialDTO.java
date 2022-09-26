@@ -21,6 +21,7 @@ public class TestimonialDTO {
     private String image;
 
     @ApiModelProperty(value = "content", example = "It´s a testimonial", position = 3)
+    @NotBlank(message = "Content cannot be empty or null.")
     private String content;
 
 }

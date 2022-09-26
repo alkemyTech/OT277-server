@@ -32,8 +32,8 @@ public class SlideEntity {
     @Column(name = "soft_delete")
     private boolean softDelete = false;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "organization_id",insertable = false,updatable = false)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "organization_id", insertable = false, updatable = false)
     private OrganizationEntity organizationEntity;
 
     @Column(name = "organization_id")

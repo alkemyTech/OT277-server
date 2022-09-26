@@ -1,5 +1,6 @@
 package com.alkemy.ong.service;
 
+import com.alkemy.ong.dto.PageableResponse;
 import com.alkemy.ong.dto.SlideDTO;
 import com.alkemy.ong.dto.SlideDTOResponse;
 import com.alkemy.ong.entity.SlideEntity;
@@ -10,7 +11,7 @@ public interface SlideService {
 
     SlideDTOResponse saveSlide(SlideDTO dto);
 
-    List<SlideDTOResponse> getSlides();
+    PageableResponse getAll(int pageNumber, int pageSize, String sortBy);
 
     List<SlideEntity> slidesForOrg(String organizaion_id);
 

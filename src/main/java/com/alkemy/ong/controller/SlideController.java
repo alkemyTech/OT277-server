@@ -31,8 +31,11 @@ public class SlideController {
     }
 
     @GetMapping
-    public ResponseEntity<List<SlideDTOResponse>> getAll() {
-        return ResponseEntity.ok().body(iSlideService.getSlides());
+    public ResponseEntity getAll(
+            @RequestParam(value = "page", defaultValue = "0", required = false) int page,
+            @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize,
+            @RequestParam(value = "sortBy", defaultValue = "id", required = false) String sortBy) {
+        return ResponseEntity.ok().body(iSlideService.getAll(page, pageSize, sortBy));
     }
 
     @PostMapping

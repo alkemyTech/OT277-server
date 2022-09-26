@@ -60,4 +60,8 @@ public class JwtUtils {
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
 
+    public Boolean isBearer(String token) {
+        return token != null && token.startsWith("Bearer ") && token.split("\\.").length == 3;
+    }
+
 }
