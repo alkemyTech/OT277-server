@@ -65,12 +65,11 @@ public class MemberController {
             @ApiResponse(code = 403, message = "PERMISSION_DENIED - Invalid mail o password",
                     response = ErrorResponse.class)
     })
-    public ResponseEntity<Void> deleteMember(@ApiParam(value = "member id")@PathVariable String id){
-        this.memberService.deleteMember(id);
-        return ResponseEntity.status(HttpStatus.OK).build();
+    public ResponseEntity<String> deleteMember(@ApiParam(value = "member id")@PathVariable String id){
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(this.memberService.deleteMember(id));
     }
 
-    @GetMapping(value = "/{id}",
+    @PutMapping(value = "/{id}",
             produces = "application/json",
             consumes = "application/json")
     @ApiOperation(value = "Get member by id",

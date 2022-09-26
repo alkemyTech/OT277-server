@@ -1,7 +1,6 @@
 package com.alkemy.ong.service.impl;
 
 import com.alkemy.ong.dto.MemberDTO;
-import com.alkemy.ong.dto.NewDtoResponse;
 import com.alkemy.ong.dto.PageableResponse;
 import com.alkemy.ong.exception.ParamNotFound;
 import com.alkemy.ong.mapper.impl.MemberMapper;
@@ -14,7 +13,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -40,10 +38,11 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public void deleteMember(String id) {
+    public String deleteMember(String id) {
         var member = memberRepository.findById(id).orElseThrow(
                 ()-> new ParamNotFound("Member not found, id: "+ id));
         this.memberRepository.delete(member);
+        return "Successfully deleted testimonial with id "+ id;
     }
 
     @Override
