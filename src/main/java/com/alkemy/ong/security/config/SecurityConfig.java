@@ -91,10 +91,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/activities", "/slides/**", "/testimonials/**")
                 .hasRole(RoleType.ADMIN.name())
 
-                .antMatchers(HttpMethod.PUT, "/activities/**", "/categories/**", "/slides/**")
+                .antMatchers(HttpMethod.PUT, "/activities/**", "/categories/**", "/slides/**", "/testimonials/**")
                 .hasRole(RoleType.ADMIN.name())
 
-                .antMatchers(HttpMethod.DELETE, "/categories/**", "/news/**", "/members/**", "/slides/**", "/organization/**")
+                .antMatchers(HttpMethod.DELETE, "/categories/**", "/news/**", "/members/**", "/slides/**", "/organization/**", "/testimonials/**")
                 .hasRole(RoleType.ADMIN.name())
 
                 .antMatchers(HttpMethod.PATCH, "/users/**")

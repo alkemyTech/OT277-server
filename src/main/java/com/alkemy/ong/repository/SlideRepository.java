@@ -1,6 +1,7 @@
 package com.alkemy.ong.repository;
 
 import com.alkemy.ong.entity.SlideEntity;
+import com.alkemy.ong.entity.TestimonialEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -17,5 +18,8 @@ public interface SlideRepository extends JpaRepository<SlideEntity, String> {
     List<Integer> findSlideOrder(@Param("organizationId") String organizationId);
 
     Optional<SlideEntity> findByIdAndSoftDeleteFalse(String id);
+
+    @Query(value = "SELECT * FROM slides WHERE soft_delete = FALSE", nativeQuery = true)
+    List<SlideEntity> getAllAndSoftDelteFalse();
 
 }

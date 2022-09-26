@@ -1,6 +1,7 @@
 package com.alkemy.ong.service.impl;
 
 
+import com.alkemy.ong.dto.PageableResponse;
 import com.alkemy.ong.dto.SlideDTO;
 import com.alkemy.ong.dto.SlideDTOResponse;
 import com.alkemy.ong.entity.SlideEntity;
@@ -8,12 +9,17 @@ import com.alkemy.ong.exception.ParamNotFound;
 import com.alkemy.ong.mapper.impl.SlideMapper;
 import com.alkemy.ong.repository.SlideRepository;
 import com.alkemy.ong.service.SlideService;
+import com.alkemy.ong.utils.PageableUtils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -23,6 +29,7 @@ public class SlideServiceImpl implements SlideService {
     private final SlideMapper slideMapper;
     private final AmazonClient amazonClient;
     private final OrganizationServiceImpl organizationService;
+    private final PageableUtils pageableUtils;
 
     public SlideDTOResponse saveSlide(SlideDTO dto) {
         SlideEntity entity = slideMapper.toEntity(dto);
@@ -61,8 +68,13 @@ public class SlideServiceImpl implements SlideService {
     }
 
     @Override
-    public List<SlideDTOResponse> getSlides() {
-        return slideMapper.toDtoResponseList(slideRepository.findAll());
+    public PageableResponse getAll(int pageNumber, int pageSize, String sortBy) {
+        Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy));
+        var slide = slideRepository.findAll(pageable);
+        var allSlides = slide.getContent();
+        var SlideDTOResponse = allSlides.stream().map(slideMapper::toDtoResponse).collect(Collectors.toList());
+        PageableResponse response = new PageableResponse();
+        return pageableUtils.pageableUtils(slide, SlideDTOResponse, response, pageNumber, pageSize);
     }
 
     @Override

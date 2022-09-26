@@ -2,7 +2,6 @@ package com.alkemy.ong.service.impl;
 
 import com.alkemy.ong.dto.PageableResponse;
 import com.alkemy.ong.dto.TestimonialDTO;
-import com.alkemy.ong.entity.CategoryEntity;
 import com.alkemy.ong.entity.TestimonialEntity;
 import com.alkemy.ong.exception.ParamNotFound;
 import com.alkemy.ong.mapper.impl.TestimonialMapper;
@@ -58,13 +57,9 @@ public class TestimonialServiceImpl implements TestimonialService {
         return pageableUtils.pageableUtils(testimonial, testimonialDTO, response, pageNumber, pageSize);
     }
 
-    public void delete(String id) {
-        Optional<TestimonialEntity> entity = testimonialRepository.findById(id);
-        if(!entity.isPresent())
-        {
-            throw new ParamNotFound("ID Testimonial not found");
-        }
-        testimonialRepository.deleteById(id);
+    public String delete(String id) {
+        testimonialRepository.deleteById(getById(id).getId());
+        return "Successfully deleted testimonial with id " + id;
     }
 }
 
