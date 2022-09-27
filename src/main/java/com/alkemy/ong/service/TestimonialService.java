@@ -14,4 +14,6 @@ public interface TestimonialService {
     PageableResponse getAll(int pageNumber, int pageSize, String sortBy);
 
     String delete(String id);
+
+    String generateUrlAmazon(String imageB64);
 }
