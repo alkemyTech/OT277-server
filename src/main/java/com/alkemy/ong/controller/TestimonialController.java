@@ -30,13 +30,6 @@ public class TestimonialController {
                     response = ErrorResponse.class),
             @ApiResponse(code = 400, message = "INVALID_ARGUMENT - Bad request",
                     response = ErrorResponse.class)})
-    @ApiImplicitParam(name = "Authorization",
-            value = "Access Token",
-            required = true,
-            allowEmptyValue = false,
-            paramType = "header",
-            dataTypeClass = String.class,
-            example = "Bearer access_token")
     public ResponseEntity<TestimonialDTO> save(@Valid @RequestBody TestimonialDTO dto) {
         TestimonialDTO response = testimonialService.save(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
@@ -55,13 +48,6 @@ public class TestimonialController {
                     response = ErrorResponse.class),
             @ApiResponse(code = 404, message = "NOT_FOUND - Testimonial not found",
                     response = ErrorResponse.class)})
-    @ApiImplicitParam(name = "Authorization",
-            value = "Access Token",
-            required = true,
-            allowEmptyValue = false,
-            paramType = "header",
-            dataTypeClass = String.class,
-            example = "Bearer access_token")
     public ResponseEntity<TestimonialDTO> update(@Valid @RequestBody TestimonialDTO dto, @PathVariable String id) {
         TestimonialDTO response = testimonialService.update(dto, id);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
@@ -74,13 +60,6 @@ public class TestimonialController {
                     response = TestimonialDTO.class),
             @ApiResponse(code = 403, message = "PERMISSION_DENIED - Forbidden.",
                     response = ErrorResponse.class)})
-    @ApiImplicitParam(name = "Authorization",
-            value = "Access Token",
-            required = true,
-            allowEmptyValue = false,
-            paramType = "header",
-            dataTypeClass = String.class,
-            example = "Bearer access_token")
     public ResponseEntity getAll(
             @RequestParam(value = "page", defaultValue = "0", required = false) int page,
             @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize,
@@ -97,13 +76,6 @@ public class TestimonialController {
                     response = ErrorResponse.class),
             @ApiResponse(code = 404, message = "NOT_FOUND - Testimonial not found",
                     response = ErrorResponse.class)})
-    @ApiImplicitParam(name = "Authorization",
-            value = "Access Token",
-            required = true,
-            allowEmptyValue = false,
-            paramType = "header",
-            dataTypeClass = String.class,
-            example = "Bearer access_token")
     public ResponseEntity<String> delete(@PathVariable String id) {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(testimonialService.delete(id));
     }

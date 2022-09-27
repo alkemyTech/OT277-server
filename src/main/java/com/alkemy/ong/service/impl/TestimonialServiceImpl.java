@@ -15,6 +15,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 
@@ -25,10 +26,12 @@ public class TestimonialServiceImpl implements TestimonialService {
     private final TestimonialMapper testimonialMapper;
     private final TestimonialRepository testimonialRepository;
     private final PageableUtils pageableUtils;
+    private final AmazonClient amazonClient;
 
     @Override
     public TestimonialDTO save(TestimonialDTO dto) {
         TestimonialEntity entity = testimonialMapper.toEntity(dto);
+        entity.setImage(generateUrlAmazon(dto.getImage()));
         return testimonialMapper.toDto(testimonialRepository.save(entity));
     }
 
@@ -60,6 +63,10 @@ public class TestimonialServiceImpl implements TestimonialService {
     public String delete(String id) {
         testimonialRepository.deleteById(getById(id).getId());
         return "Successfully deleted testimonial with id " + id;
+    }
+
+    public String generateUrlAmazon(String imageB64) {
+        return amazonClient.uploadFile(imageB64, UUID.randomUUID().toString());
     }
 }
 
